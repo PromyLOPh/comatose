@@ -87,8 +87,8 @@ maybeToHtml = maybe (toHtml ("" :: String)) toHtml
 head' [] = Nothing
 head' (x:_) = Just x
 
-protoentry :: Database -> [String] -> (String, Protocol) -> Html ()
-protoentry db featurekeys (ident, p) = tr_ $ do
+protoentry :: Database -> (String, Protocol) -> Html ()
+protoentry db (ident, p) = tr_ $ do
 	let
 		pubs = protoPublications db p
 		firstpub = join (head' pubs)
@@ -96,7 +96,7 @@ protoentry db featurekeys (ident, p) = tr_ $ do
 	td_ $ maybeToHtml $ pname p
 	td_ $ maybeToHtml $ pabbrv p
 	td_ $ maybeToHtml $ field "year"
-	forM_ featurekeys (\x -> td_ $ toHtml $ maybe ("" :: String) (const "✓") $ M.lookup x (pfeatures p))
+	td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 
@@ -115,25 +115,20 @@ page db = doctypehtml_ $ do
 		extjs "https://cdn.datatables.net/1.10.5/js/jquery.dataTables.js"
 		extcss "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"
 		extjs "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"
+		style_ "td.features ul { list-style-type: none; margin: 0; padding: 0; }"
 	body_ $ do
 		div_ [class_ "container"] $ do
 			div_ [class_ "page-header"] $ do
 				h1_ "comatose"
 				h2_ "COmprehensive MAc TaxonOmy databaSE"
 			table_ [id_ "algo", class_ "table-striped"] $ do
-				let featurekeys = referencedFeatures db
 				thead_ $ do
 					tr_ $ do
 						th_ "Name"
 						th_ "Abbrv"
 						th_ "Year"
-						th_ [colspan_ (T.pack $ show $ length featurekeys)] "Features"
-					tr_ $ do
-						th_ ""
-						th_ ""
-						th_ ""
-						forM_ featurekeys (\x -> maybe (th_ "") (th_ . toHtml . fname) $ M.lookup x (dfeatures db))
-				tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db featurekeys)
+						th_ "Features"
+				tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
 		script_ "$(document).ready( function () { $('#algo').DataTable( { paging: false, \"columnDefs\": [ ] } ); } );"
 
 render f db = renderToFile f (page db)
