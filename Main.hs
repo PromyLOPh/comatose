@@ -19,8 +19,8 @@ import Lucid
 import Paths_comatose
 
 data Protocol = Protocol {
-	  pname :: Maybe String
-	, pabbrv :: Maybe String
+	  pname :: String
+	, plongname :: Maybe String
 	, pref :: [String]
 	, pfeatures :: M.Map String (Maybe String)
 	} deriving Show
@@ -40,10 +40,10 @@ type FeatureList = M.Map String Feature
 
 instance FromJSON Protocol where
 	parseJSON (Object v) = Protocol
-		<$> v .:? "name"
-		<*> v .:? "abbrv"
+		<$> v .: "name"
+		<*> v .:? "longname"
 		<*> v .:? "ref" .!= []
-		<*> v .:?  "features" .!= M.empty
+		<*> v .:? "features" .!= M.empty
 	parseJSON _          = mzero
 
 instance FromJSON Database where
@@ -93,8 +93,8 @@ protoentry db (ident, p) = tr_ $ do
 		pubs = protoPublications db p
 		firstpub = join (head' pubs)
 		field key = firstpub >>= (return . E.fields) >>= lookup key
-	td_ $ maybeToHtml $ pname p
-	td_ $ maybeToHtml $ pabbrv p
+	td_ $ toHtml $ pname p
+	td_ $ maybeToHtml $ plongname p
 	td_ $ maybeToHtml $ field "year"
 	td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
@@ -125,7 +125,7 @@ page db = doctypehtml_ $ do
 				thead_ $ do
 					tr_ $ do
 						th_ "Name"
-						th_ "Abbrv"
+						th_ ""
 						th_ "Year"
 						th_ "Features"
 				tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)

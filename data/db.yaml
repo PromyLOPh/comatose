@@ -216,51 +216,42 @@ algos:
         features:
             time.discrete:
     csmaca:
-        abbrv: CSMA/CA
+        name: CSMA/CA
         #features: [backoff, carriersense]
     dfwmac:
         name: DFWMAC
         # related to ieee 802.11
-    # class bitmap
-    bitmap:
-        name: basic bit-map method
-        slotted: true
-        carrierSense: false?
-        collisions: false
-        #ref: [tanenbaum]
-    # class token
-    # class binary countdown
     btma:
-        name: Busy Tone Multiple Access
-        abbrv: BTMA
+        longname: Busy Tone Multiple Access
+        name: BTMA
         ref: [btma]
     ribtma:
-        name: Receiver Initiated Busy Tone Multiple Access
-        abbrv: RI-BTMA
+        longname: Receiver Initiated Busy Tone Multiple Access
+        name: RI-BTMA
         ref: [ribtma]
     isma:
-        name: Idle Sense Multiple Access
+        longname: Idle Sense Multiple Access
         # or: Idle Signal Multiple Access ???
-        abbrv: ISMA
+        name: ISMA
         collisions: true
         ref: [isma]
     iisma:
-        abbrv: I-ISMA
-        name: Idle Signal Multiple Access for Integrated services
+        name: I-ISMA
+        longname: Idle Signal Multiple Access for Integrated services
         ref: [iisma]
     risma:
-        name: Reservation Idle Sense Multiple Access
-        abbrv: R-ISMA
+        longname: Reservation Idle Sense Multiple Access
+        name: R-ISMA
         collisions: true
         ref: [risma]
     sisma:
-        name: Slotted Idle Sense Multiple Access
-        abbrv: S-ISMA
+        longname: Slotted Idle Sense Multiple Access
+        name: S-ISMA
         collisions: true
         ref: [sisma]
     rap:
-        name: Randomly Addressed Polling
-        abbrv: RAP
+        longname: Randomly Addressed Polling
+        name: RAP
         ref: [rap]
         # base station polls nodes for random number (multiple times), sorts
         # them and polls the nodes in that order, collisions can occur
@@ -268,14 +259,14 @@ algos:
             access.polling:
             reliability.retransmission:
     rrap:
-        name: Reserved Randomly Addressed Polling
-        abbrv: RRAP
+        longname: Reserved Randomly Addressed Polling
+        name: RRAP
         related: [rap]
         collisions: true
         ref: [rrap]
     grap:
+        longname: GRAP
         name: GRAP
-        abbrv: GRAP
         related: [rap]
         collisions: true
         ref: [grap]
@@ -288,8 +279,8 @@ algos:
         collisions: true
         ref: [grapo]
     rama:
-        name: Resource Auction Multiple Access
-        abbrv: RAMA
+        longname: Resource Auction Multiple Access
+        name: RAMA
         ref: [rama]
         # Base station has list of free resources, nodes trying to reserve
         # resource send their id, digit by digit to base station, that
@@ -299,16 +290,16 @@ algos:
             time.discrete:
             time.synchronized:
     frama:
-        name: fair resource assignment multiple access
-        abbrv: F-RAMA
+        longname: fair resource assignment multiple access
+        name: F-RAMA
         ref: [frama]
     zhang:
         name: Zhang’s Proposal
         collisions: false
         ref: [zhang]
     dtmp:
-        name: Disposable Token MAC Protocol
-        abbrv: DTMP
+        longname: Disposable Token MAC Protocol
+        name: DTMP
         ref: [dtmp]
         # Base station polls node (i.e. node received token), if no data to be
         # sent on either side -> timeout, node->bs: can be sent immediately,
@@ -324,8 +315,8 @@ algos:
         collisions: false
         ref: [acampora]
     prma:
-        name: Packet Reservation Multiple Access
-        abbrv: PRMA
+        longname: Packet Reservation Multiple Access
+        name: PRMA
         ref: [prma]
         related: [raloha, saloha]
         # Time slots grouped into frames, successful transmission of packet
@@ -338,19 +329,19 @@ algos:
             topology.centralized:
             routing.unicast:
     frma:
-        name: Frame Reservation Multiple Access
-        abbrv: FRMA
+        longname: Frame Reservation Multiple Access
+        name: FRMA
         ref: [frma]
     prmapp:
         name: PRMA++
         ref: [prmapp]
     cprma:
-        name: Centralized PRMA
-        abbrv: C-PRMA
+        longname: Centralized PRMA
+        name: C-PRMA
         ref: [cprma]
     maca:
-        name: Multiple Access with Collision Avoidance
-        abbrv: MACA
+        longname: Multiple Access with Collision Avoidance
+        name: MACA
         ref: [maca]
         related: [csma/ca, btma]
         # Stations overhear RTS/CTS and inhibit their transmission, random
@@ -362,134 +353,131 @@ algos:
             topology.singlehop:
             access.contention:
     macaw:
-        abbrv: MACAW
+        #longname: none
+        name: MACAW
         ref: [macaw]
         #features: [rtscts]
         related: [maca]
     fama:
-        name: Floor Acquisition Multiple Access
-        abbrv: FAMA
+        longname: Floor Acquisition Multiple Access
+        name: FAMA
         ref: [fama]
-    ieee80211:
-        name: IEEE 802.11
-        # no ref?
-        related: [macaw, csmaca, carriersense, backoff, discrete-time, rtscts]
     eynpma:
         name: EY-NPMA
         # mac protocol of hiperlan
         # ref: etsi hiperlan specs
     macabi:
-        name: MACA By Invitation
-        abbrv: MACA-BI
+        longname: MACA By Invitation
+        name: MACA-BI
         ref: [macabi]
         related: [maca]
         features:
             initiation.sender:
     fprp:
-        name: A Five-Phase Reservation Protocol
-        abbrv: FPRP
+        longname: A Five-Phase Reservation Protocol
+        name: FPRP
         ref: [fprp]
     pamas:
-        name: Power Aware MultiAccess protocol with signaling
+        longname: Power Aware MultiAccess protocol with signaling
+        name: PAMAS
         related: [maca]
         ref: [pamas]
         #features: [multichannel, rtscts, busytone]
         features:
             channels.multi:
-    bluetooth:
-        name: Bluetooth
     markowski:
         name: Markowski
         ref: [markowski]
     hrma:
-        name: Hop-reservation multiple access
-        abbrv: HRMA
+        longname: Hop-reservation multiple access
+        name: HRMA
         ref: [hrma]
         #features: [adhoc, discrete-time, slot-reservation, collision-free, multichannel]
         features:
             application.adhoc:
             time.discrete:
     mcsma:
-        name: multichannel CSMA
-        abbrv: MCSMA
+        longname: multichannel CSMA
+        name: MCSMA
         ref: [mcsma]
     ps-dcc:
-        name: Power-Save Distributed Contention Control
-        abbrv: PS-DCC
+        longname: Power-Save Distributed Contention Control
+        name: PS-DCC
         ref: [psdcc]
     rima-sp:
         name: RIMA-SP
+        longname: Receiver initiated multiple access with simple polling
         ref: [rimasp]
     adapt:
         name: ADAPT
+        longname: A Dynamically Adaptive Protocol for Transmission
         ref: [adapt]
-    rra-isa:
+    rraisa:
+        longname: Reservation Random Access – Independent Stations Algorithm
         name: RRA-ISA
         ref: [rraisa]
     dqruma:
-        name: Distributed-Queuing Request Update Multiple Access
-        abbrv: DQRUMA
+        longname: Distributed-Queuing Request Update Multiple Access
+        name: DQRUMA
         ref: [dqruma]
     mascara:
-        name: Mobile Access Scheme based on Contention and Reservation for ATM
-        abbrv: MASCARA
+        longname: Mobile Access Scheme based on Contention and Reservation for ATM
+        name: MASCARA
         ref: [mascara]
     dsapp:
-        name: Dynamic Slot Assignment++
-        abbrv: DSA++
+        longname: Dynamic Slot Assignment++
+        name: DSA++
         ref: [dsapp]
     cata:
-        name: Collision Avoidance Time Allocation
-        abbrv: CATA
+        longname: Collision Avoidance Time Allocation
+        name: CATA
         ref: [cata]
         # XXX: incomplete
         features:
             time.discrete:
     jin:
-        name: Jin
+        name: Jin’s proposal
         ref: [jin]
-    ieee802153:
-        name: IEEE 802.15.4
-        # base layer for zigbee
     trama:
-        name: traffic-adaptive medium access protocol
-        abbrv: TRAMA
+        longname: traffic-adaptive medium access protocol
+        name: TRAMA
         ref: [trama]
         #features: [discrete-time, distributed]
         features:
             time.discrete:
     nama:
-        name: Node-Activation Multiple Access
-        abbrv: NAMA
+        longname: Node-Activation Multiple Access
+        name: NAMA
         ref: [nama]
     smac:
-        name: Sensor MAC
-        abbrv: S-MAC
+        longname: Sensor MAC
+        name: S-MAC
         #features: [rtscts]
         ref: [smac]
     tmac:
-        name: Timeout MAC
-        abbrv: T-MAC
+        longname: Timeout MAC
+        name: T-MAC
         related: [smac]
         #features: [rtscts]
         ref: [tmac]
     dsmac:
-        name: DS-MAC
+        longname: Dynamic Sensor MAC
+        name: DSMAC
         related: [smac]
         ref: [dsmac]
     march:
-        name: Multiple Access with ReduCed Handshake
-        abbrv: MARCH
+        longname: Multiple Access with ReduCed Handshake
+        name: MARCH
         ref: [march]
         #features: [adhoc]
     richdp:
-        name: receiver-initiated channel-hopping with dual polling 
-        abbrv: RICH-DP
+        longname: receiver-initiated channel-hopping with dual polling 
+        name: RICH-DP
         ref: [richdp]
         #features: [adhoc]
     srmapa:
-        name: Soft Reservation Multiple Access with Priority Assignment
-        abbrv: SRMA/PA
+        longname: Soft Reservation Multiple Access with Priority Assignment
+        name: SRMA/PA
         ref: [srmapa]
         # XXX incomplete
         features:
@@ -501,23 +489,23 @@ algos:
             topology.multihop:
             time.discrete:
     dcapc:
-        name: Dynamic channel assignment with power control
-        abbrv: DCA-PC
+        longname: Dynamic channel assignment with power control
+        name: DCA-PC
         ref: [dcapc]
         #features: [adhoc]
     gpc:
-        name: Generic power-controlled protocol
-        abbrv: GPC
+        longname: Generic power-controlled protocol
+        name: GPC
         ref: [gpc]
         #features: [adhoc]
     vbs:
-        name: Virtual base stations
-        abbrv: VBS
+        longname: Virtual base stations
+        name: VBS
         ref: [vbs]
         #features: [adhoc]
     dpcalp:
-        name: Distributed Power Control with Active Link Protection
-        abbrv: DPC/ALP
+        longname: Distributed Power Control with Active Link Protection
+        name: DPC/ALP
         ref: [dpcalp]
         #features: [adhoc]
     lal:
@@ -525,44 +513,47 @@ algos:
         ref: [lal]
         #features: [lal]
     gridb:
-        abbrv: GRID-B
+        longname: GRID with Channel Borrowing
+        name: GRID-B
         ref: [gridb]
         #features: [adhoc]
     mcmac:
-        name: Multi-Code MAC
-        abbrv: MC MAC
+        longname: Multi-Code MAC
+        name: MC MAC
         ref: [mcmac]
         #features: [adhoc]
     wca:
-        name: Weighted clustering algorithm
-        abbrv: WCA
+        longname: Weighted clustering algorithm
+        name: WCA
         ref: [wca]
         #features: [adhoc]
     dbtma:
-        name: Dual Busy Tone Multiple Access
-        abbrv: DBTMA
+        longname: Dual Busy Tone Multiple Access
+        name: DBTMA
         ref: [dbtma]
         #features: [adhoc]
     mmac:
-        name: Multi-Hop RTS MAC
-        abbrv: MMAC
+        longname: Multi-Hop RTS MAC
+        name: MMAC
         ref: [mmac]
         #features: [adhoc]
     dprma:
-        abbrv: D-PRMA
+        longname: Distributed PRMA
+        name: D-PRMA
         ref: [dprma]
         #features: [adhoc]
     dprma2:
-        abbrv: D-PRMA
+        longname: Dynamic Packet Reservation MAC
+        name: D-PRMA
         ref: [dprma2]
     macapr:
-        name: Multiple Access Collision Avoidance with Piggyback Reservations
-        abbrv: MACA/PR
+        longname: Multiple Access Collision Avoidance with Piggyback Reservations
+        name: MACA/PR
         #features: [qos, discrete-time, slot-reservation, rtscts, adhoc]
         ref: [macapr]
     dps:
-        name: Distributed Priority Scheduling
-        abbrv: DPS
+        longname: Distributed Priority Scheduling
+        name: DPS
         #features: [rtscts, adhoc]
         ref: [dps]
         # XXX not complete
@@ -571,78 +562,79 @@ algos:
             topology.multihop:
             other.qos:
     dwop:
-        name: Distributed Wireless Ordering Protocol
-        abbrv: DWOP
+        longname: Distributed Wireless Ordering Protocol
+        name: DWOP
         #features: [adhoc]
         ref: [dwop]
     fdma:
-        abbrv: FDMA
+        name: FDMA
         #features: [fixed]
     tdma:
-        abbrv: TDMA
+        name: TDMA
         #features: [discrete-time, fixed]
     cdma:
-        abbrv: CDMA
+        name: CDMA
         #features: [fixed]
     ymac:
-        abbrv: Y-MAC
+        #longname: none
+        name: Y-MAC
         #features: [discrete-time, carriersense, broadcast, unicast, multichannel]
         ref: [ymac]
     desynctdma:
-        abbrv: DESYNC-TDMA
+        name: DESYNC-TDMA
         related: [tdma]
         ref: [desynctdma]
     leach:
-        name: Low-Energy Adaptive Clustering Hierarchy
-        abbrv: LEACH
+        longname: Low-Energy Adaptive Clustering Hierarchy
+        name: LEACH
         related: [tdma]
         #features: [discrete-time]
         ref: [leach]
     # no info available
     #leachc:
-    #    abbrv: LEACH-C
+    #    name: LEACH-C
     lmac:
-        abbrv: LMAC
-        name: Lightweight Medium Access Control
+        name: LMAC
+        longname: Lightweight Medium Access Control
         #features: [discrete-time, distributed]
         ref: [lmac]
     mlmac:
-        abbrv: MLMAC
-        name: Mobile LMAC
+        name: MLMAC
+        longname: Mobile LMAC
         related: [lmac, tdma]
         #features: [distributed, discrete-time]
         ref: [mlmac]
     pmac:
-        name: Pattern MAC
-        abbrv: PMAC
+        longname: Pattern MAC
+        name: PMAC
         related: [tdma]
         ref: [pmac]
     rmac:
-        name: Routing-Enhanced MAC
-        abbrv: RMAC
+        longname: Routing-Enhanced MAC
+        name: RMAC
         related: [smac]
         ref: [rmac]
     dmac:
-        abbrv: DMAC
-        name: Data-Gathering MAC
+        name: DMAC
+        longname: Data-Gathering MAC
         ref: [dmac]
     wisemac:
-        name: Wireless Sensor MAC
-        abbrv: WiseMAC
+        longname: Wireless Sensor MAC
+        name: WiseMAC
         ref: [wisemac]
     rimac:
-        name: Receiver-Initiated MAC
-        abbrv: RI-MAC
+        longname: Receiver-Initiated MAC
+        name: RI-MAC
         ref: [rimac]
     zmac:
-        name: Zebra MAC
-        abbrv: Z-MAC
+        longname: Zebra MAC
+        name: Z-MAC
         #features: [discrete-time, distributed]
         related: [csma, tdma]
         ref: [zmac]
     mhmac:
-        abbrv: MH-MAC
-        name: Mobility Adaptive Hybrid MAC
+        name: MH-MAC
+        longname: Mobility Adaptive Hybrid MAC
         #features: [discrete-time]
         ref: [mhmac]
     ginmac:
@@ -662,35 +654,36 @@ algos:
             deployment.planned:
             topology.multihop:
     tsmp:
-        abbrv: TSMP
+        name: TSMP
         # used by wirelesshart, not just layer 2 though
-        name: Time Synchronized Mesh Protocol
+        longname: Time Synchronized Mesh Protocol
         ref: [tsmp]
         #features: [synchronized, multichannel, centralized]
     aimrp:
-        name: Address-light, integrated MAC and routing protocol
-        abbrv: AIMRP
+        longname: Address-light, integrated MAC and routing protocol
+        name: AIMRP
         ref: [aimrp]
         features:
             application.wsn:
     xmac:
-        abbrv: X-MAC
+        #longname: none
+        name: X-MAC
         ref: [xmac]
         features:
             # actually: duty-cycled wsn
             application.wsn:
     # from kumar2014
     qosmac:
-        abbrv: QoS-MAC
+        name: QoS-MAC
         # kumar2014 calls it qos-mac
         ref: [qosmac]
     pedamacs:
-        abbrv: PEDAMACS
-        name: Power Efficient and Delay Aware MAC for Sensor Networks
+        name: PEDAMACS
+        longname: Power Efficient and Delay Aware MAC for Sensor Networks
         ref: [pedamacs]
     ermac:
-        abbrv: ER-MAC
-        name: Emergency Response MAC
+        name: ER-MAC
+        longname: Emergency Response MAC
         ref: [ermac]
     prioritymac:
         # 4 qos classes, tdma with preemption
@@ -725,11 +718,11 @@ algos:
             access.contention:
             topology.multihop:
     bmac:
-        name: Berkeley MAC
-        abbrv: B-MAC
+        longname: Berkeley MAC
+        name: B-MAC
         ref: [bmac]
     rtlink:
-        abbrv: RT-Link
+        name: RT-Link
         ref: [rtlink]
         features:
             realtime.guaranteed:
@@ -739,7 +732,8 @@ algos:
             energy.dutycycling:
             topology.multihop:
     mmsn:
-        abbrv: MMSN
+        #longname: Multi-Frequency MAC for Wireless Sensor Networks?
+        name: MMSN
         ref: [mmsn]
     alert:
         name: Alert
@@ -748,7 +742,8 @@ algos:
         name: Sift
         ref: [sift]
     rrmac:
-        abbrv: RRMAC
+        longname: Realtime/reliable MAC # ?
+        name: RRMAC
         ref: [rrmac]
         features:
             access.reservation:
@@ -769,20 +764,20 @@ algos:
             realtime.guaranteed:
             application.wsn:
     vts:
-        name: Virtual TDMA for Sensors
-        abbrv: VTS
+        longname: Virtual TDMA for Sensors
+        name: VTS
         ref: [vts]
     rrr:
-        name: Resilent Round Robin
-        abbrv: RRR
+        longname: Resilent Round Robin
+        name: RRR
         ref: [rrr]
         # XXX not complete
         features:
             application.wsn:
             energy.dutycycling:
     pwmac:
-        abbrv: PW-MAC
-        name: Predictive-Wakeup MAC
+        name: PW-MAC
+        longname: Predictive-Wakeup MAC
         ref: [pwmac]
         # XXX incomplete
         features:
@@ -793,11 +788,13 @@ algos:
             # ?
             access.contention:
     omac:
-        abbrv: O-MAC
+        #longname: none
+        name: O-MAC
         ref: [omac]
     # from the mac alphabet soup
-    mumac:
-        abbrv: μ-MAC
+    mucmac:
+        #longname: none
+        name: μ-MAC
         ref: [mumac]
         # XXX incomplete
         features:
@@ -807,96 +804,99 @@ algos:
             access.contention:
             access.reservation:
     amac:
-        abbrv: A-MAC
+        #longname: none
+        name: A-MAC
         ref: [amac]
     ailmac:
-        name: Adaptive, Information-centric and lightweight MAC
-        abbrv: AI-LMAC
+        longname: Adaptive, Information-centric and lightweight MAC
+        name: AI-LMAC
         ref: [ailmac]
     bitmac:
-        abbrv: BitMAC
+        name: BitMAC
         ref: [bitmac]
     bma:
-        name: Bit-map assisted MAC
-        abbrv: BMA
+        longname: Bit-map assisted MAC
+        name: BMA
         ref: [bma]
     bpmac:
-        abbrv: BP-MAC
+        name: BP-MAC
         # no ref available?
         # paper at: http://www.ejse.org/Archives/Fulltext/2009/Special/2009SP4.pdf
     bpsmac:
-        name: Backoff Preamble Sequential MAC
-        abbrv: BPS-MAC
+        longname: Backoff Preamble Sequential MAC
+        name: BPS-MAC
         ref: [bpsmac]
     buzzbuzz:
         name: BuzzBuzz
         ref: [buzzbuzz]
     cmac:
-        abbrv: C-MAC
+        #longname: Concurrent MAC?
+        name: C-MAC
         ref: [cmac]
     ccmac:
-        name: Correlation-based Collaborative MAC
-        abbrv: CC-MAC
+        longname: Correlation-based Collaborative MAC
+        name: CC-MAC
         ref: [ccmac]
     cmac2009:
-        name: Convergent MAC
-        abbrv: CMAC
+        longname: Convergent MAC
+        name: CMAC
         ref: [cmac2009]
     cmacchowdhury2009:
-        abbrv: CMAC
+        #longname: none
+        name: CMAC
         ref: [cmacchowdhury2009]
     crankshaft:
         name: Crankshaft
         ref: [crankshaft]
     csmamps:
-        name: Minimum Preamble Sampling CSMA
-        abbrv: CSMA-MPS
+        longname: Minimum Preamble Sampling CSMA
+        name: CSMA-MPS
         ref: [csmamps]
     woo2001:
-        # there doesn’t seem to be a name
         name: Woo’s proposal
         ref: [woo2001]
     dwmac:
-        name: Demand Wakeup MAC
-        abbrv: DW-MAC
+        longname: Demand Wakeup MAC
+        name: DW-MAC
         ref: [dwmac]
     e2mac:
-        abbrv: E^2-MAC
-        name: Energy-efficient MAC
+        name: E^2-MAC
+        longname: Energy-efficient MAC
         ref: [e2mac]
     emmac:
-        abbrv: EM-MAC
-        name: Efficient Multichannel MAC
+        name: EM-MAC
+        longname: Efficient Multichannel MAC
         ref: [emmac]
     emacs:
-        abbrv: EMACs
-        name: EYES MAC
+        name: EMACs
+        longname: EYES MAC
         ref: [emacs]
     fmac:
-        abbrv: f-MAC
+        longname: Framelet MAC
+        name: f-MAC
         ref: [fmac]
     flama:
-        abbrv: FLAMA
-        name: Flow-aware Medium Access
+        name: FLAMA
+        longname: Flow-aware Medium Access
         ref: [flama]
     funneling:
         name: Funneling-MAC
         ref: [funneling]
     gmac:
-        name: Gateway MAC
-        abbrv: G-MAC
+        longname: Gateway MAC
+        name: G-MAC
         ref: [gmac]
     hmac:
-        abbrv: HMAC
-        name: Hybrid MAC
+        name: HMAC
+        longname: Hybrid MAC
         ref: [hmac]
     iamac:
-        abbrv: IAMAC
-        name: Interference Avoidance MAC 
+        name: IAMAC
+        longname: Interference Avoidance MAC 
         ref: [iamac]
     mclmac:
-        name: Multi-Channel Lightweight MAC
-        abbrv: MC-LMAC
+        longname: Multi-Channel Lightweight MAC
+        name: MC-LMAC
         ref: [mclmac]
         features:
             channels.multi:
@@ -909,23 +909,24 @@ algos:
             topology.multihop:
             routing.broadcast:
     mfp:
-        abbrv: MFP
-        name:  Micro-Frame Preamble
+        name: MFP
+        longname:  Micro-Frame Preamble
         ref: [mfp]
     mixmac:
-        abbrv: MiX-MAC
+        #longname: none
+        name: MiX-MAC
         ref: [mixmac]
     # no paper/citation available
     #mrmac:
     # same here
     #nanomac:
     pact:
-        abbrv: PACT
-        name: Power aware clustered TDMA
+        name: PACT
+        longname: Power aware clustered TDMA
         ref: [pact]
     pcm:
-        abbrv: PCM
-        name: Power Control MAC
+        name: PCM
+        longname: Power Control MAC
         ref: [pcm]
     guo2001:
         name: Guo’s proposal
@@ -935,69 +936,72 @@ algos:
         name: El-Hoiydi’s proposal
         ref: [elhoiydi2002]
     qmac2006:
-        abbrv: Q-MAC
+        longname: Query MAC # ?
+        name: Q-MAC
         ref: [qmac2006]
     qmac2005:
-        abbrv: Q-MAC
-        name: QoS-aware MAC
+        name: Q-MAC
+        longname: QoS-aware MAC
         ref: [qmac2005]
     # cannot find qos-oriented mac (qmac)
     miller2005:
         name: Miller’s proposal
         ref: [miller2005]
     ticer:
-        abbrv: TICER
-        name: Transmitter Initiated Cycled Receiver
+        name: TICER
+        longname: Transmitter Initiated Cycled Receiver
         ref: [tricer]
     ricer:
-        abbrv: RICER
-        name: Receiver Initiated Cycled Receiver
+        name: RICER
+        longname: Receiver Initiated Cycled Receiver
         ref: [tricer]
     rlmac:
-        abbrv: RL-MAC
-        name: Reinforced Learning MAC
+        name: RL-MAC
+        longname: Reinforced Learning MAC
         ref: [rlmac]
-    rmacXXX:
-        abbrv: RMAC
-        ref: [rmacXXX]
+    rmac2004:
+        longname: Randomized MAC # ?
+        name: RMAC
+        ref: [rmac2004]
     rmac2006:
-        abbrv: RMAC
-        name: Reliable MAC
+        name: RMAC
+        longname: Reliable MAC
         ref: [rmac2006]
     samac:
-        abbrv: SA-MAC
-        name: Spectrum agile MAC
+        name: SA-MAC
+        longname: Spectrum agile MAC
         ref: [samac]
     scp:
-        abbrv: SCP
-        name: Scheduled Channel Polling
+        name: SCP
+        longname: Scheduled Channel Polling
         ref: [scp]
     seesaw:
         name: SEESAW
         ref: [seesaw]
     smacs:
-        abbrv: SMACS
-        name: Self-Organizing Medium Access Control for Sensor Networks
+        name: SMACS
+        longname: Self-Organizing Medium Access Control for Sensor Networks
         ref: [smacs]
     sotp:
-        abbrv: SOTP
-        name: Self-Organized TDMA Protocol
+        name: SOTP
+        longname: Self-Organized TDMA Protocol
         ref: [sotp]
     sstdma:
-        abbrv: SS-TDMA
-        name: Self-Stabilizing MAC
+        name: SS-TDMA
+        longname: Self-Stabilizing MAC
         ref: [sstdma]
     # stem does not seem to be a mac protocol
     tamac:
-        abbrv: TA-MAC
-        name: Traffic adaptive MAC
+        name: TA-MAC
+        longname: Traffic adaptive MAC
         ref: [tamac]
     trawmac:
-        abbrv: TRACMAC
-        name: Traffic aware MAC
+        name: TRACMAC
+        longname: Traffic aware MAC
         ref: [trawmac]
     umac:
-        abbrv: U-MAC
+        #longname: none
+        name: U-MAC
         ref: [umac]
     pereira2007:
         name: Pereira’s proposal
@@ -1006,7 +1010,8 @@ algos:
         name: Arisha’s proposal
         ref: [arisha2002]
     tmmac:
-        abbrv: TMMAC
+        longname: TDMA-based multi-channel MAC # ?
+        name: TMMAC
         ref: [tmmac]
         features:
             channels.multi:
@@ -1018,8 +1023,8 @@ algos:
             power.dutycycling:
             deployment.adhoc:
     pip:
-        name: Packets in Pipe
-        abbrv: PIP
+        longname: Packets in Pipe
+        name: PIP
         ref: [pip]
         features:
             channels.multi:
@@ -1032,16 +1037,16 @@ algos:
             application.wsn:
             access.reservation:
     carley:
-        name: Carely’s proposal
+        name: Carley’s proposal
         ref: [carley]
         # XXX incomplete
         features:
             time.synchronized:
             time.discrete:
     burstmac:
-        abbrv: BurstMAC
+        name: BurstMAC
         ref: [burstmac]
     dozer:
-        abbrv: Dozer
+        name: Dozer
         ref: [dozer]
 
