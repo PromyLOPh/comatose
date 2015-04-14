@@ -88,7 +88,7 @@ head' [] = Nothing
 head' (x:_) = Just x
 
 protoentry :: Database -> (String, Protocol) -> Html ()
-protoentry db (ident, p) = tr_ $ do
+protoentry db (ident, p) = tr_ [id_ $ T.pack ident] $ do
 	let
 		pubs = protoPublications db p
 		firstpub = join (head' pubs)
