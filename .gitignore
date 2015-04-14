@@ -1,0 +1,5 @@
+*.sw?
+.cabal-sandbox/
+cabal.sandbox.config
+dist/
+comatose.html
