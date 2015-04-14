@@ -215,9 +215,6 @@ algos:
         #features: [backoff, carriersense, discrete-time]
         features:
             time.discrete:
-    csmaca:
-        name: CSMA/CA
-        #features: [backoff, carriersense]
     dfwmac:
         name: DFWMAC
         # related to ieee 802.11
@@ -566,15 +563,6 @@ algos:
         name: DWOP
         #features: [adhoc]
         ref: [dwop]
-    fdma:
-        name: FDMA
-        #features: [fixed]
-    tdma:
-        name: TDMA
-        #features: [discrete-time, fixed]
-    cdma:
-        name: CDMA
-        #features: [fixed]
     ymac:
         #longname: none
         name: Y-MAC
