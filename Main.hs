@@ -14,6 +14,7 @@ import Text.Parsec.Error
 import Text.ParserCombinators.Parsec.Prim
 import qualified Data.ByteString.Lazy as BS
 import System.FilePath ((<.>), splitExtension)
+import Network.URI (isReserved, escapeURIString)
 import Lucid
 
 import Paths_comatose
@@ -87,6 +88,9 @@ maybeToHtml = maybe (toHtml ("" :: String)) toHtml
 head' [] = Nothing
 head' (x:_) = Just x
 
+scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
+resolveDoi q = "http://doi.org/" ++ q
+
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) = tr_ [id_ $ T.pack ident] $ do
 	let
@@ -95,6 +99,10 @@ protoentry db (ident, p) = tr_ [id_ $ T.pack ident] $ do
 		field key = firstpub >>= (return . E.fields) >>= lookup key
 	td_ $ toHtml $ pname p
 	td_ $ maybeToHtml $ plongname p
+	td_ $ do
+		maybe "" (\x -> a_ [href_ $ T.pack $ resolveDoi x] "doi") $ field "doi"
+		" "
+		maybe "" (\x -> a_ [href_ $ T.pack $ scholarSearch x] "Google") $ field "title"
 	td_ $ maybeToHtml $ field "year"
 	td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
@@ -125,6 +133,7 @@ page db = doctypehtml_ $ do
 				thead_ $ do
 					tr_ $ do
 						th_ "Name"
+						th_ ""
 						th_ ""
 						th_ "Year"
 						th_ "Features"
