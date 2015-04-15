@@ -4,7 +4,8 @@ import Control.Applicative
 import Control.Monad
 import Data.Monoid
 import Data.Yaml
-import Data.List (nub, sort)
+import Data.List (nub, sort, sortBy)
+import Data.Function (on)
 import Data.Maybe (catMaybes)
 import qualified Data.Text as T
 import Text.BibTeX.Parse
@@ -111,7 +112,31 @@ extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 extjs :: T.Text -> Html ()
 extjs url = script_ [type_ "text/javascript", charset_ "utf8", src_ url] ("" :: T.Text)
 
-page db = doctypehtml_ $ do
+-- | Try very hard to find an appropriate URL for the bibentry, DOIs are prefered
+bibentryurl bib = safeHead $ catMaybes [doi, url]
+	where
+		fields = E.fields bib
+		doi = lookup "doi" fields >>= return . resolveDoi
+		url = lookup "url" fields
+
+-- | Format bibliography/references item
+bibentry :: E.T -> Html ()
+bibentry bib = do
+	let fields = E.fields bib
+	a_ [href_ $ T.pack $ maybe "" id $ bibentryurl bib] $ maybeToHtml $ lookup "title" fields
+	", "
+	maybeToHtml $ lookup "author" fields
+	", "
+	maybeToHtml $ lookup "year" fields
+
+-- | References section
+references :: [E.T] -> Html ()
+references attrib = do
+	section_ $ do
+		h2_ "References"
+		ol_ $ forM_ attrib (li_ . bibentry)
+
+page db attrib = doctypehtml_ $ do
 	head_ $ do
 		title_ "comatose"
 		meta_ [charset_ "utf-8"]
@@ -138,9 +163,15 @@ page db = doctypehtml_ $ do
 						th_ "Year"
 						th_ "Features"
 				tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
+			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
 		script_ "$(document).ready( function () { $('#algo').DataTable( { paging: false, \"columnDefs\": [ ] } ); } );"
 
-render f db = renderToFile f (page db)
+render f db attribution = renderToFile f (page db attribution)
 
-main = getDataFileName "data/db.yaml" >>= readDb >>= render "comatose.html"
+readAttributions = getDataFileName "data/attribution.bib" >>= parseFromFile file
+
+main = do
+	db <- getDataFileName "data/db.yaml" >>= readDb
+	(Right attribution) <- readAttributions
+	render "comatose.html" db attribution
 

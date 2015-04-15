@@ -4,7 +4,6 @@
 
 # Available features
 # ==================
-
 features:
     # XXX ?
     access:
@@ -125,62 +124,8 @@ features:
     other.qos:
         name: QoS
 
-# todo
-# ^^^^
-# suriyachai2012:
-# Performance Objectives: Energy (no, n/a, duty-cycling), delay (node-to-node/end-to-end decrease/probalistic guarantee/guarantee), reliability (no, node-to-node/end-to-end increase/guarantee)
-# Assumptions: Deployment, Topology, Network Pattern, Cross-Layer Support, Transceiver
-
-# gummalla:
-# Architecture: Distributed (Collision avoidance, random access), Centralized (random access, guaranteed access, hybrid access)
-
-# jurdak2004:
-# Channels (single, multiple), Topology (single-hop, multi-hop, clustered, centralized), Transmission initiation (sender/receiver), Power efficient, Traffic load/scalabiliy, Range
-
-# demirkol2006: time sync needed, comm pattern support (all, convergecast), type (csma, np-csma, tdma/csma, csma/ca, tdma) adaptivity (good, weak)
-
-# mo2008 (only multichannel mac): dedicated control channel, common hopping, split phase, parallel rendezvous
-
-# kumar2014: fixed, demand, hybrid assignment, random access; design
-# considerations: node deployment (topology?), control packet overhead, time
-# synchronization (local/global), slot scheduling, duty-cycling, multi-channel,
-# cross-layer support, channel utilization, node priority, collision avoidance
-# Main classes are: energy-efficient, qos-aware, real-time
-
-# several: hard- vs soft real-time
-
-# pip: coordinated (tdma)/uncoordinated (tdma), centralized/distributed,
-# single/multichannel, connection-oriented/-less
-
-# old
-# ^^^
-
-# Slot assignment strategies
-# --------------------------
-# fixed: fixed (time/freq/…) slot assignment
-# slot-reservation: nodes reserve slots for data-transmissions. While
-#     the actual data-transfer is collision-free the reservation is not
-# token-passing:
-# polling: 
-
-# Topology
-# --------
-# centralized
-# cluster
-# single-hop: mac layer relies on higher layers to transmit packet to out-of-range stations
-# multi-hop
-
-# rtscts: rts/cts/data/ack slot reservation mechanism
-
-# distributed: Distributed access control
-
-# backoff: Uses exponential backoff in case of collisions
-# carriersense: Station senses medium before sending
-
-# synchronized: A synchronized clock is required
-
-# fixed-slotsize: You name it.
-
+# Algorithms/Protocols
+# ====================
 algos:
     alohap:
         name: Pure ALOHA
