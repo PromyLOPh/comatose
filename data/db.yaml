@@ -5,23 +5,20 @@
 # Available features
 # ==================
 features:
-    # XXX ?
     access:
         name: Channel access
-    # aka carrier-sense?
-    access.contention:
-        name: Contention
+    access.random:
+        name: Random
     access.token-passing:
         name: Token-passing
     access.polling:
         name: Polling
     access.reservation:
-        name: Reservation
-    # XXX ?
-    access.rtscts:
-        name: RTS/CTS
-    # XXX: static schedule
-    access.carriersense:
+        name: Dynamic reservation
+    access.schedule:
+        name: Static schedule
+
+    radio.carriersense:
         name: Carrier sense
 
     topology:
@@ -51,11 +48,8 @@ features:
 
     time:
         name: Time model
-    time.synchronized:
-        name: Synchronized
-        description: Node’s clocks have to be synchronized
     time.discrete:
-        name: Discrete
+        name: Discrete, synchronized
     time.continuous:
         name: Continuous
 
@@ -136,7 +130,7 @@ algos:
         features:
             time.continuous:
             application.console:
-            access.contention:
+            access.random:
     alohas:
         name: Slotted ALOHA
         related: [alohap]
@@ -230,7 +224,6 @@ algos:
         # drop out. At the end of the auction a winner is announced.
         features:
             time.discrete:
-            time.synchronized:
     frama:
         longname: fair resource assignment multiple access
         name: F-RAMA
@@ -261,12 +254,13 @@ algos:
         name: PRMA
         ref: [prma]
         related: [raloha, saloha]
-        # Time slots grouped into frames, successful transmission of packet
-        # (ALOHA contention) reserves slot for next frame until node does not
-        # use it any more (slot empty).
+        description: >
+            Time slots grouped into frames, successful transmission of packet
+            (ALOHA contention) reserves slot for next frame until node does not
+            use it any more (slot empty).
         features:
             time.discrete:
-            access.contention:
+            access.random:
             access.reservation:
             topology.centralized:
             routing.unicast:
@@ -286,14 +280,15 @@ algos:
         name: MACA
         ref: [maca]
         related: [csma/ca, btma]
-        # Stations overhear RTS/CTS and inhibit their transmission, random
-        # waiting on collisions, no carrier sense, slot time is duration of RTS
-        # packet, “time multiplexed btma with one channel”
+        description: >
+            Stations overhear RTS/CTS and inhibit their transmission, random
+            waiting on collisions, no carrier sense, slot time is duration of
+            RTS packet, “time multiplexed btma with one channel”
         features:
             channels.single:
             time.discrete:
             topology.singlehop:
-            access.contention:
+            access.random:
     macaw:
         #longname: none
         name: MACAW
@@ -423,7 +418,7 @@ algos:
         ref: [srmapa]
         # XXX incomplete
         features:
-            access.contention:
+            access.random:
             # nodes content for access and – if granted – remain in control of their slot (aka soft reservation, distributed)
             access.reservation:
             topology.adhoc:
@@ -578,7 +573,6 @@ algos:
         related: [tdma]
         features:
             time.discrete:
-            time.synchronized:
             # off-line dimensioning, exclusive slots
             access.reservation:
             realtime.guaranteed:
@@ -626,14 +620,13 @@ algos:
             application.iwsan:
             # access to the medium is contended for AM1/2, with exponential
             # backoff
-            access.contention:
+            access.random:
             access.carriersense:
             # AM3/4 use dedicated time slots
             access.reservation:
             other.qos:
             initiation.sender:
             time.discrete:
-            time.synchronized:
             realtime.probabilistic:
     hymac:
         name: HyMAC
@@ -644,11 +637,10 @@ algos:
             channels.multi:
             application.wsn:
             # out-of-band sync
-            time.synchronized:
             time.discrete:
             # both, reserved and contended slots
             access.reservation:
-            access.contention:
+            access.random:
             topology.multihop:
     bmac:
         longname: Berkeley MAC
@@ -660,7 +652,6 @@ algos:
         features:
             realtime.guaranteed:
             access.reservation:
-            time.synchronized:
             time.discrete:
             energy.dutycycling:
             topology.multihop:
@@ -682,7 +673,6 @@ algos:
             access.reservation:
             application.wsn:
             time.discrete:
-            time.synchronized:
             realtime.guaranteed:
             topology.multihop:
             # centralized assignment of time slots with deadline scheduling
@@ -719,7 +709,7 @@ algos:
             initiation.receiver:
             reliability.retransmission:
             # ?
-            access.contention:
+            access.random:
     omac:
         #longname: none
         name: O-MAC
@@ -734,7 +724,7 @@ algos:
             time.discrete:
             channels.single:
             # contention period + contention-free period
-            access.contention:
+            access.random:
             access.reservation:
     amac:
         #longname: none
@@ -836,7 +826,6 @@ algos:
             # high-throughput
             application.wsn:
             time.discrete:
-            time.synchronized:
             # distributed ad-hoc assignment
             access.reservation:
             topology.multihop:
@@ -949,7 +938,6 @@ algos:
         features:
             channels.multi:
             routing.broadcast:
-            time.synchronized:
             time.discrete:
             # not 100% collision-free!
             access.reservation:
@@ -964,7 +952,6 @@ algos:
             topology.centralized:
             topology.multihop:
             time.discrete:
-            time.synchronized:
             power.dutycycling:
             # bulk-transfer in wsn
             application.wsn:
@@ -974,12 +961,32 @@ algos:
         ref: [carley]
         # XXX incomplete
         features:
-            time.synchronized:
             time.discrete:
     burstmac:
         name: BurstMAC
         ref: [burstmac]
+        description: >
+            Even-triggerred, correlated bursts, cooperative static schedule
+            based on PRNG, one control channel, multiple data channels (FDMA)
+        related: [bitmac]
+        features:
+            application.wsn:
+            channel.multi:
+            time.discrete:
+            access.reservation:
+            access.schedule:
+            routing.multihop: # tree?
     dozer:
         name: Dozer
         ref: [dozer]
+        description: >
+            Ultra-low power, tree-routing, local time synchronization, local
+            TDMA schedules (collisions can occur!), static slot assignment to
+            joining nodes, beacon time-synchronization
+        features:
+            application.wsn:
+            topology.multihop:
+            time.discrete:
+            access.schedule:
+            reliability.retransmission: # ?
 
