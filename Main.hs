@@ -131,10 +131,26 @@ bibentry bib = do
 
 -- | References section
 references :: [E.T] -> Html ()
-references attrib = do
-	section_ $ do
+references attrib = section_ $ do
 		h2_ "References"
 		ol_ $ forM_ attrib (li_ . bibentry)
+
+-- | What is this?!
+introduction :: Html ()
+introduction = section_ $ do
+		p_ "The comprehensive MAC taxonomy database (comatose) aims to be …"
+
+-- | The list of protocols
+protocols :: Database -> Html ()
+protocols db = table_ [id_ "algo", class_ "table table-striped"] $ do
+	thead_ $ do
+		tr_ $ do
+			th_ "Name"
+			th_ ""
+			th_ ""
+			th_ "Year"
+			th_ "Features"
+	tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
 
 page db attrib = doctypehtml_ $ do
 	head_ $ do
@@ -153,16 +169,8 @@ page db attrib = doctypehtml_ $ do
 		div_ [class_ "container"] $ do
 			div_ [class_ "page-header"] $ do
 				h1_ "comatose"
-				h2_ "COmprehensive MAc TaxonOmy databaSE"
-			table_ [id_ "algo", class_ "table-striped"] $ do
-				thead_ $ do
-					tr_ $ do
-						th_ "Name"
-						th_ ""
-						th_ ""
-						th_ "Year"
-						th_ "Features"
-				tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
+			introduction
+			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
 		script_ "$(document).ready( function () { $('#algo').DataTable( { paging: false, \"columnDefs\": [ ] } ); } );"
 
