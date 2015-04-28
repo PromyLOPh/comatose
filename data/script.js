@@ -7,6 +7,9 @@ $(document).ready (function () {
 		var data = $(this).data ('proto');
 		$('#popup h2').text (data.name);
 		$('#popup .subtitle').text (data.longname);
+		$('#popup .doi').text ('doi:' + data.doi);
+		$('#popup .doi').attr ('href', 'http://doi.org/' + data.doi);
+		$('#popup .scholar').attr ('href', 'http://scholar.google.com/scholar?q=' + encodeURIComponent (data.title));
 		$('#popup .year').text (data.year);
 		$('#popup .description').text (data.description);
 

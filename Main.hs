@@ -46,6 +46,9 @@ data JQData = JQData {
 	  jname :: String
 	, jlongname :: Maybe String
 	, jdescription :: Maybe String
+	, jdoi :: Maybe String
+	, jyear :: Maybe String
+	, jtitle :: Maybe String
 	} deriving Show
 
 instance ToJSON JQData where
@@ -53,6 +56,9 @@ instance ToJSON JQData where
 		  "name" .= jname d
 		, "longname" .= jlongname d
 		, "description" .= jdescription d
+		, "doi" .= jdoi d
+		, "year" .= jyear d
+		, "title" .= jtitle d
 		]
 
 type FeatureList = M.Map String Feature
@@ -110,6 +116,9 @@ head' (x:_) = Just x
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
 resolveDoi q = "http://doi.org/" ++ q
 
+maybeLink :: Html () -> Maybe T.Text -> Html ()
+maybeLink text href = maybe text (\x -> a_ [href_ x] text) href
+
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
 	let
@@ -120,18 +129,17 @@ protoentry db (ident, p) =
 			  jname = pname p
 			, jlongname = plongname p
 			, jdescription = pdescription p
+			, jdoi = field "doi"
+			, jyear = field "year"
+			, jtitle = field "title"
 			}
 	in
 		tr_ [
 			  id_ $ T.pack ident
 			, data_ "proto" ((decodeUtf8 . BS.toStrict . A.encode) jdata)
 			] $ do
-			td_ $ toHtml $ pname p
+			td_ $ maybeLink (toHtml $ pname p) (field "doi" >>= return . T.pack . resolveDoi)
 			td_ $ maybeToHtml $ plongname p
-			td_ $ do
-				maybe "" (\x -> a_ [href_ $ T.pack $ resolveDoi x] "doi") $ field "doi"
-				" "
-				maybe "" (\x -> a_ [href_ $ T.pack $ scholarSearch x] "Google") $ field "title"
 			td_ $ maybeToHtml $ field "year"
 			td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
@@ -175,7 +183,6 @@ protocols db = table_ [id_ "algo", class_ "table table-striped"] $ do
 		tr_ $ do
 			th_ "Name"
 			th_ ""
-			th_ ""
 			th_ "Year"
 			th_ "Features"
 	tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
@@ -204,6 +211,12 @@ page db attrib = doctypehtml_ $ do
 		div_ [id_ "popup"] $ do
 			h2_ ""
 			p_ [class_ "subtitle"] ""
+			p_ [class_ "ref"] $ do
+				span_ [class_ "year"] ""
+				", "
+				a_ [class_ "doi"] ""
+				", "
+				a_ [class_ "scholar"] "Scholar"
 			p_ [class_ "description"] ""
 		extjs "script.js"
 
