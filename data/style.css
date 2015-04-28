@@ -25,3 +25,23 @@ td.features ul {
 	opacity: 0.5;
 }
 
+.ref {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ref li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.ref li:after {
+	content: ", ";
+}
+
+.ref .title {
+	font-style: italic;
+}
+

@@ -210,13 +210,12 @@ page db attrib = doctypehtml_ $ do
 		div_ [id_ "background"] ""
 		div_ [id_ "popup"] $ do
 			h2_ ""
-			p_ [class_ "subtitle"] ""
-			p_ [class_ "ref"] $ do
-				span_ [class_ "year"] ""
-				", "
-				a_ [class_ "doi"] ""
-				", "
-				a_ [class_ "scholar"] "Scholar"
+			p_ [class_ "longname"] ""
+			ul_ [class_ "ref"] $ do
+				li_ [class_ "title"] ""
+				li_ [class_ "year"] ""
+				li_ $ a_ [class_ "doi"] ""
+				li_ $ a_ [class_ "scholar"] "Scholar"
 			p_ [class_ "description"] ""
 		extjs "script.js"
 
