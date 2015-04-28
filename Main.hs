@@ -42,25 +42,6 @@ data Feature = Feature {
 	, fdescription :: Maybe String
 	} deriving Show
 
-data JQData = JQData {
-	  jname :: String
-	, jlongname :: Maybe String
-	, jdescription :: Maybe String
-	, jdoi :: Maybe String
-	, jyear :: Maybe String
-	, jtitle :: Maybe String
-	} deriving Show
-
-instance ToJSON JQData where
-	toJSON d = object [
-		  "name" .= jname d
-		, "longname" .= jlongname d
-		, "description" .= jdescription d
-		, "doi" .= jdoi d
-		, "year" .= jyear d
-		, "title" .= jtitle d
-		]
-
 type FeatureList = M.Map String Feature
 
 instance FromJSON Protocol where
@@ -116,32 +97,31 @@ head' (x:_) = Just x
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
 resolveDoi q = "http://doi.org/" ++ q
 
-maybeLink :: Html () -> Maybe T.Text -> Html ()
-maybeLink text href = maybe text (\x -> a_ [href_ x] text) href
-
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
 	let
-		pubs = protoPublications db p
-		firstpub = join (head' pubs)
+		pubs = catMaybes $ protoPublications db p
+		firstpub = head' pubs
 		field key = firstpub >>= (return . E.fields) >>= lookup key
-		jdata = JQData {
-			  jname = pname p
-			, jlongname = plongname p
-			, jdescription = pdescription p
-			, jdoi = field "doi"
-			, jyear = field "year"
-			, jtitle = field "title"
-			}
 	in
-		tr_ [
-			  id_ $ T.pack ident
-			, data_ "proto" ((decodeUtf8 . BS.toStrict . A.encode) jdata)
+		section_ [
+			id_ $ T.pack ident
+			, class_ "protocol"
+			, data_ "name" (T.pack $ pname p)
+			, data_ "year" (maybe "" T.pack $ field "year")
 			] $ do
-			td_ $ maybeLink (toHtml $ pname p) (field "doi" >>= return . T.pack . resolveDoi)
-			td_ $ maybeToHtml $ plongname p
-			td_ $ maybeToHtml $ field "year"
-			td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+			h3_ $ do
+				toHtml $ pname p
+				" "
+				maybe "" (small_ . toHtml) $ plongname p
+				" "
+				small_ $ a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] "¶"
+			dl_ $ do
+				dt_ "Published in"
+				dd_ $ if length pubs == 1 then (p_ $ bibentry $ head pubs)
+				else ol_ $ forM_ pubs (li_ . bibentry)
+				dt_ "Features"
+				dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 
@@ -178,27 +158,24 @@ introduction = section_ $ do
 
 -- | The list of protocols
 protocols :: Database -> Html ()
-protocols db = table_ [id_ "algo", class_ "table table-striped"] $ do
-	thead_ $ do
-		tr_ $ do
-			th_ "Name"
-			th_ ""
-			th_ "Year"
-			th_ "Features"
-	tbody_ $ forM_ (M.toList $ dalgos db) (protoentry db)
+protocols db = section_ [id_ "protocols"] $ do
+	h2_ "Protocols"
+	div_ [id_ "protosort"] $ do
+		label_ [for_ "sort"] "Sort by"
+		" "
+		select_ [id_ "sort"] $ do
+			option_ [value_ "name"] "Name"
+			option_ [value_ "year"] "Year"
+	forM_ (M.toList $ dalgos db) (protoentry db)
 
 page db attrib = doctypehtml_ $ do
 	head_ $ do
 		title_ "comatose"
 		meta_ [charset_ "utf-8"]
-		extjs "https://code.jquery.com/jquery-1.10.2.min.js"
+		extjs "https://code.jquery.com/jquery-1.11.2.min.js"
 		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
 		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"
-		extcss "https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css"
-		extjs "https://cdn.datatables.net/1.10.5/js/jquery.dataTables.js"
-		extcss "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"
-		extjs "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"
 		extcss "style.css"
 	body_ $ do
 		div_ [class_ "container"] $ do
@@ -207,16 +184,6 @@ page db attrib = doctypehtml_ $ do
 			introduction
 			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
-		div_ [id_ "background"] ""
-		div_ [id_ "popup"] $ do
-			h2_ ""
-			p_ [class_ "longname"] ""
-			ul_ [class_ "ref"] $ do
-				li_ [class_ "title"] ""
-				li_ [class_ "year"] ""
-				li_ $ a_ [class_ "doi"] ""
-				li_ $ a_ [class_ "scholar"] "Scholar"
-			p_ [class_ "description"] ""
 		extjs "script.js"
 
 render f db attribution = renderToFile f (page db attribution)

@@ -1,35 +1,22 @@
 $(document).ready (function () {
-	$('#algo').DataTable ({
-		paging: false,
-		"columnDefs": [],
-	});
-	$('#algo tr').click (function () {
-		var data = $(this).data ('proto');
-		$('#popup h2').text (data.name);
-		$('#popup .longname').text (data.longname);
-
-		$('#popup .title').text (data.title);
-		$('#popup .year').text (data.year);
-		$('#popup .doi').text ('doi:' + data.doi);
-		$('#popup .doi').attr ('href', 'http://doi.org/' + data.doi);
-		$('#popup .scholar').attr ('href', 'http://scholar.google.com/scholar?q=' + encodeURIComponent (data.title));
-
-		$('#popup .description').text (data.description);
-
-		$('#popup').fadeIn ('normal');
-		$('#background').fadeIn ('normal');
-	});
-	/* hide popup window */
-	function hide () {
-		$('#popup').fadeOut ('normal');
-		$('#background').fadeOut ('normal');
+	function sortproto (by) {
+		var protolist = $('#protocols');
+		var items = protolist.children ('.protocol');
+		items.detach ().sort (function (nodeA, nodeB) {
+			var a = $(nodeA).data (by);
+			var b = $(nodeB).data (by);
+			if (a > b) {
+				return 1;
+			} else if (a < b) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+		protolist.append (items);
 	}
-	$('#background').click (function () {
-		hide ();
+	$('#sort').change (function () {
+		sortproto ($(this).val ());
 	});
-	$(document).keyup (function (e) {
-		if (e.keyCode == 27) {
-			hide ();
-		}
-	});
+	sortproto ('name');
 });
