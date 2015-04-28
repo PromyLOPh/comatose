@@ -18,5 +18,18 @@ $(document).ready (function () {
 	$('#sort').change (function () {
 		sortproto ($(this).val ());
 	});
+	$('#filter').keyup (function () {
+		var search = $(this).val ().toLowerCase ();
+		var items = $('#protocols .protocol');
+		for (var i = 0; i < items.length; i++) {
+			var e = $(items[i]);
+			if (e.data ('name').toLowerCase ().indexOf (search) >= 0) {
+				e.show ();
+			} else {
+				e.hide ();
+			}
+		}
+	});
+	$('#protosort').show ();
 	sortproto ('name');
 });

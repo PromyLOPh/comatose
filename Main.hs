@@ -160,10 +160,14 @@ introduction = section_ $ do
 protocols :: Database -> Html ()
 protocols db = section_ [id_ "protocols"] $ do
 	h2_ "Protocols"
-	div_ [id_ "protosort"] $ do
+	div_ [id_ "protosort", class_ "form-inline"] $ do
+		label_ [for_ "filter"] "Filter"
+		" "
+		input_ [id_ "filter", type_ "text", class_ "form-control"]
+		" "
 		label_ [for_ "sort"] "Sort by"
 		" "
-		select_ [id_ "sort"] $ do
+		select_ [id_ "sort", class_ "form-control"] $ do
 			option_ [value_ "name"] "Name"
 			option_ [value_ "year"] "Year"
 	forM_ (M.toList $ dalgos db) (protoentry db)
