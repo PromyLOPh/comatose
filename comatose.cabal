@@ -13,13 +13,13 @@ category:            Web
 build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
-data-files:          data/db.yaml, data/db.bib, data/attribution.bib
+data-files:          data/db.yaml, data/db.bib, data/attribution.bib, data/script.js, data/style.css
 
 executable comatose
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7, bibtex, yaml, containers, parsec, lucid, bytestring, text, filepath, network
+  build-depends:       base >=4.6 && <4.7, bibtex, yaml, containers, parsec, lucid, bytestring, text, filepath, network, aeson, directory
   -- hs-source-dirs:      
   default-language:    Haskell2010
 

@@ -8,6 +8,8 @@ import Data.List (nub, sort, sortBy)
 import Data.Function (on)
 import Data.Maybe (catMaybes)
 import qualified Data.Text as T
+import Data.Text.Encoding (decodeUtf8)
+import qualified Data.Aeson as A
 import Text.BibTeX.Parse
 import Text.BibTeX.Entry as E
 import qualified Data.Map as M
@@ -15,6 +17,7 @@ import Text.Parsec.Error
 import Text.ParserCombinators.Parsec.Prim
 import qualified Data.ByteString.Lazy as BS
 import System.FilePath ((<.>), splitExtension)
+import System.Directory (copyFile)
 import Network.URI (isReserved, escapeURIString)
 import Lucid
 
@@ -23,6 +26,7 @@ import Paths_comatose
 data Protocol = Protocol {
 	  pname :: String
 	, plongname :: Maybe String
+	, pdescription :: Maybe String
 	, pref :: [String]
 	, pfeatures :: M.Map String (Maybe String)
 	} deriving Show
@@ -38,12 +42,26 @@ data Feature = Feature {
 	, fdescription :: Maybe String
 	} deriving Show
 
+data JQData = JQData {
+	  jname :: String
+	, jlongname :: Maybe String
+	, jdescription :: Maybe String
+	} deriving Show
+
+instance ToJSON JQData where
+	toJSON d = object [
+		  "name" .= jname d
+		, "longname" .= jlongname d
+		, "description" .= jdescription d
+		]
+
 type FeatureList = M.Map String Feature
 
 instance FromJSON Protocol where
 	parseJSON (Object v) = Protocol
 		<$> v .: "name"
 		<*> v .:? "longname"
+		<*> v .:? "description"
 		<*> v .:? "ref" .!= []
 		<*> v .:? "features" .!= M.empty
 	parseJSON _          = mzero
@@ -93,19 +111,29 @@ scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isRe
 resolveDoi q = "http://doi.org/" ++ q
 
 protoentry :: Database -> (String, Protocol) -> Html ()
-protoentry db (ident, p) = tr_ [id_ $ T.pack ident] $ do
+protoentry db (ident, p) =
 	let
 		pubs = protoPublications db p
 		firstpub = join (head' pubs)
 		field key = firstpub >>= (return . E.fields) >>= lookup key
-	td_ $ toHtml $ pname p
-	td_ $ maybeToHtml $ plongname p
-	td_ $ do
-		maybe "" (\x -> a_ [href_ $ T.pack $ resolveDoi x] "doi") $ field "doi"
-		" "
-		maybe "" (\x -> a_ [href_ $ T.pack $ scholarSearch x] "Google") $ field "title"
-	td_ $ maybeToHtml $ field "year"
-	td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+		jdata = JQData {
+			  jname = pname p
+			, jlongname = plongname p
+			, jdescription = pdescription p
+			}
+	in
+		tr_ [
+			  id_ $ T.pack ident
+			, data_ "proto" ((decodeUtf8 . BS.toStrict . A.encode) jdata)
+			] $ do
+			td_ $ toHtml $ pname p
+			td_ $ maybeToHtml $ plongname p
+			td_ $ do
+				maybe "" (\x -> a_ [href_ $ T.pack $ resolveDoi x] "doi") $ field "doi"
+				" "
+				maybe "" (\x -> a_ [href_ $ T.pack $ scholarSearch x] "Google") $ field "title"
+			td_ $ maybeToHtml $ field "year"
+			td_ [class_ "features"] $ ul_ $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 
@@ -164,7 +192,7 @@ page db attrib = doctypehtml_ $ do
 		extjs "https://cdn.datatables.net/1.10.5/js/jquery.dataTables.js"
 		extcss "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"
 		extjs "https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"
-		style_ "td.features ul { list-style-type: none; margin: 0; padding: 0; }"
+		extcss "style.css"
 	body_ $ do
 		div_ [class_ "container"] $ do
 			div_ [class_ "page-header"] $ do
@@ -172,14 +200,23 @@ page db attrib = doctypehtml_ $ do
 			introduction
 			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
-		script_ "$(document).ready( function () { $('#algo').DataTable( { paging: false, \"columnDefs\": [ ] } ); } );"
+		div_ [id_ "background"] ""
+		div_ [id_ "popup"] $ do
+			h2_ ""
+			p_ [class_ "subtitle"] ""
+			p_ [class_ "description"] ""
+		extjs "script.js"
 
 render f db attribution = renderToFile f (page db attribution)
 
 readAttributions = getDataFileName "data/attribution.bib" >>= parseFromFile file
 
+copyDataFile source dest = getDataFileName source >>= (\x -> copyFile x dest)
+
 main = do
 	db <- getDataFileName "data/db.yaml" >>= readDb
 	(Right attribution) <- readAttributions
-	render "comatose.html" db attribution
+	render "_build/index.html" db attribution
+	copyDataFile "data/style.css" "_build/style.css"
+	copyDataFile "data/script.js" "_build/script.js"
 

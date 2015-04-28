@@ -1,0 +1,27 @@
+td.features ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#popup {
+	display: none;
+	position: fixed;
+	background-color: #fff;
+	top: 25%;
+	left: 25%;
+	width: 50%;
+	padding: 2em;
+}
+
+#background {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: 0.5;
+}
+
