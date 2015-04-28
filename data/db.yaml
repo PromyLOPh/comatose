@@ -694,10 +694,17 @@ algos:
         longname: Resilent Round Robin
         name: RRR
         ref: [rrr]
-        # XXX not complete
+        description: >
+            High data-rate sensor networks, scheduled contention with binary
+            search tree resolution collision resolution (BSTCR),
+            collision-detection by receiver/base-station, dynamic time slot
+            assignment possible, no global time synchronization required
         features:
             application.wsn:
             energy.dutycycling:
+            initiation.receiver:
+            access.polling: # ?
+            time.discrete:
     pwmac:
         name: PW-MAC
         longname: Predictive-Wakeup MAC
@@ -989,4 +996,18 @@ algos:
             time.discrete:
             access.schedule:
             reliability.retransmission: # ?
+    camac:
+        name: CA-MAC
+        longname: Context-aware MAC
+        ref: [camac]
+    uctdma:
+        name: UC-TDMA
+        longname: User configured TDMA
+        ref: [uctdma]
+    flammini:
+        name: Flammini’s proposal
+        ref: [flammini2009]
+    flipmac:
+        name: Flip-MAC
+        ref: [flipmac]
 
