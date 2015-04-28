@@ -177,9 +177,9 @@ page db attrib = doctypehtml_ $ do
 		title_ "comatose"
 		meta_ [charset_ "utf-8"]
 		extjs "https://code.jquery.com/jquery-1.11.2.min.js"
-		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
-		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
-		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"
+		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
+		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
 		extcss "style.css"
 	body_ $ do
 		div_ [class_ "container"] $ do
