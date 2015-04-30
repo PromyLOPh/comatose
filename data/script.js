@@ -13,11 +13,8 @@ $(document).ready (function () {
 		});
 		protolist.append (items);
 	}
-	$('#sort').change (function () {
-		sortproto ($(this).val ());
-	});
-	$('#filter').keyup (function () {
-		var search = $(this).val ().toLowerCase ();
+	function filterproto (search) {
+		search = search.toLowerCase ()
 		var items = $('#protocols .protocol');
 		for (var i = 0; i < items.length; i++) {
 			var e = $(items[i]);
@@ -27,7 +24,14 @@ $(document).ready (function () {
 				e.hide ();
 			}
 		}
+	}
+	$('#sort').change (function () {
+		sortproto ($(this).val ());
+	});
+	$('#filter').keyup (function () {
+		filterproto ($(this).val ());
 	});
 	$('#protosort').show ();
-	sortproto ('name');
+	sortproto ($('#sort').val ());
+	filterproto ($('#filter').val ());
 });
