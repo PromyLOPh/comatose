@@ -97,6 +97,20 @@ head' (x:_) = Just x
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
 resolveDoi q = "http://doi.org/" ++ q
 
+protofeatures :: Database -> Protocol -> Html ()
+protofeatures _ p | (M.size $ pfeatures p) == 0 = mempty
+protofeatures db p = do
+	dt_ "Features"
+	dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+
+protopapers :: [T] -> Html ()
+protopapers pubs | length pubs == 0 = mempty
+protopapers pubs = do
+	dt_ "Published in"
+	dd_ $ if length pubs == 1
+		then p_ $ bibentry $ head pubs
+		else ol_ $ forM_ pubs (li_ . bibentry)
+
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
 	let
@@ -117,11 +131,8 @@ protoentry db (ident, p) =
 				" "
 				small_ $ a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] "¶"
 			dl_ $ do
-				dt_ "Published in"
-				dd_ $ if length pubs == 1 then (p_ $ bibentry $ head pubs)
-				else ol_ $ forM_ pubs (li_ . bibentry)
-				dt_ "Features"
-				dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+				protopapers pubs
+				protofeatures db p
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 
@@ -152,9 +163,22 @@ references attrib = section_ $ do
 		ol_ $ forM_ attrib (li_ . bibentry)
 
 -- | What is this?!
-introduction :: Html ()
-introduction = section_ $ do
-		p_ "The comprehensive MAC taxonomy database (comatose) aims to be …"
+introduction :: Database -> Html ()
+introduction db =
+	let
+		algocount = M.size $ dalgos db
+		pubyears = catMaybes $ map (lookup "year" . E.fields) $ dpublications db
+		firstyear = foldr min (head pubyears) (tail pubyears)
+		lastyear = foldr max (head pubyears) (tail pubyears)
+	in section_ $ do
+		p_ $ do
+			"The comprehensive MAC taxonomy database (comatose) is a collection of "
+			toHtml $ show algocount
+			" wireless media/medium access protocols published between "
+			toHtml firstyear
+			" and "
+			toHtml lastyear
+			"."
 
 -- | The list of protocols
 protocols :: Database -> Html ()
@@ -185,7 +209,7 @@ page db attrib = doctypehtml_ $ do
 		div_ [class_ "container"] $ do
 			div_ [class_ "page-header"] $ do
 				h1_ "comatose"
-			introduction
+			introduction db
 			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
 		extjs "script.js"
