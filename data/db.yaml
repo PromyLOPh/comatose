@@ -1086,4 +1086,12 @@ algos:
         name: STEM
         longname: Sparse Topology and Energy Management
         ref: [stem]
+    edf:
+        name: EDF
+        longname: Earliest Deadline First
+        ref: [edf]
+    dbmac:
+        name: DB-MAC
+        longname: Delay-Bounded MAC
+        ref: [dbmac]
 
