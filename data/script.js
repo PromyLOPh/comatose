@@ -18,7 +18,8 @@ $(document).ready (function () {
 		var items = $('#protocols .protocol');
 		for (var i = 0; i < items.length; i++) {
 			var e = $(items[i]);
-			if (e.data ('name').toLowerCase ().indexOf (search) >= 0) {
+			var val = e.data ('name') + ' ' + e.data ('longname') + ' ' + e.data ('author');
+			if (val.toLowerCase ().indexOf (search) >= 0) {
 				e.show ();
 			} else {
 				e.hide ();

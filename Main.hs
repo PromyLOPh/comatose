@@ -122,6 +122,8 @@ protoentry db (ident, p) =
 			id_ $ T.pack ident
 			, class_ "protocol"
 			, data_ "name" (T.pack $ pname p)
+			, data_ "longname" (maybe "" T.pack $ plongname p)
+			, data_ "author" (maybe "" T.pack $ field "author")
 			, data_ "year" (maybe "" T.pack $ field "year")
 			] $ do
 			h3_ $ do
