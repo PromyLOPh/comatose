@@ -45,6 +45,8 @@ features:
         name: Vehicular mobile ad hoc network
     application.console:
         name: Serial console
+    application.iwsan:
+        name: Industrial wireless sensor actuator network
 
     time:
         name: Time model
@@ -621,7 +623,7 @@ algos:
             # access to the medium is contended for AM1/2, with exponential
             # backoff
             access.random:
-            access.carriersense:
+            radio.carriersense:
             # AM3/4 use dedicated time slots
             access.reservation:
             other.qos:
@@ -653,7 +655,7 @@ algos:
             realtime.guaranteed:
             access.reservation:
             time.discrete:
-            energy.dutycycling:
+            power.dutycycling:
             topology.multihop:
     mmsn:
         #longname: Multi-Frequency MAC for Wireless Sensor Networks?
@@ -701,7 +703,7 @@ algos:
             assignment possible, no global time synchronization required
         features:
             application.wsn:
-            energy.dutycycling:
+            power.dutycycling:
             initiation.receiver:
             access.polling: # ?
             time.discrete:
@@ -712,7 +714,7 @@ algos:
         # XXX incomplete
         features:
             # asynchronous
-            energy.dutycycling:
+            power.dutycycling:
             initiation.receiver:
             reliability.retransmission:
             # ?
@@ -847,8 +849,6 @@ algos:
         ref: [mixmac]
     # no paper/citation available
     #mrmac:
-    # same here
-    #nanomac:
     pact:
         name: PACT
         longname: Power aware clustered TDMA
@@ -919,7 +919,6 @@ algos:
         name: SS-TDMA
         longname: Self-Stabilizing MAC
         ref: [sstdma]
-    # stem does not seem to be a mac protocol
     tamac:
         name: TA-MAC
         longname: Traffic adaptive MAC
@@ -1010,4 +1009,81 @@ algos:
     flipmac:
         name: Flip-MAC
         ref: [flipmac]
+        description: Reduce contention
+        features:
+            application.wsn:
+    fleximac:
+        name: FlexiMAC
+        ref: [fleximac]
+    picoradio:
+        name: PicoRadio
+        ref: [picoradio]
+    pmmac:
+        name: Practical Multichannel MAC
+        ref: [pmmac]
+    swmac:
+        name: SWMAC
+        ref: [swmac]
+    nanomac:
+        name: nanoMAC
+        ref: [nanomac]
+    fpa:
+        name: FPA
+        longname: Fast Path Algorithm
+        ref: [fpa]
+    msmac:
+        name: MS-MAC
+        longname: Adaptive Mobility-Aware MAC protocol for sensor networks
+        ref: [msmac]
+    gsa:
+        name: GSA
+        longname: Global Schedule Algorithm
+        ref: [fpa]
+    e2rmac:
+        name: E2RMAC
+        longname: On-demand energy-efficient and reliable medium access control
+        ref: [e2rmac]
+    psaloha:
+        name: Preamble Sampling ALOHA
+        ref: [psaloha]
+    mica:
+        #name: Preamble Sampling CSMA
+        name: Mica
+        ref: [mica]
+    eaalpl:
+        name: EA-ALPL
+        longname: Energy Aware Adaptive Low Power Listening
+        ref: [eaalpl]
+    csmamps:
+        name: CSMA-MPS
+        longname: Minimum Preamble Sampling MAC Protocol
+        ref: [csmamps]
+    dpsmac:
+        name: DPS-MAC
+        longname: Dual Preamble Sampling MAC
+        ref: [dpsmac]
+    geraf:
+        name: GeRAF
+        longname: Geographic Random Forwarding
+        ref: [geraf]
+    1hopmac:
+        name: 1-hopMAC
+        ref: [onehopmac]
+    sp:
+        name: SP
+        longname: Sensornet protocol
+        ref: [sp]
+    syncwuf:
+        name: SyncWUF
+        ref: [syncwuf]
+    speckmacd:
+        name: SpeckMAC
+        ref: [speckmac]
+    mxmac:
+        name: MX-MAC
+        ref: [mxmac]
+    stem:
+        name: STEM
+        longname: Sparse Topology and Energy Management
+        ref: [stem]
 
