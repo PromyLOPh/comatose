@@ -23,26 +23,37 @@ import Lucid
 
 import Paths_comatose
 
+-- |A MAC protocol/algorithm
 data Protocol = Protocol {
+	-- |Short protocol name, usually its abbreviation
 	  pname :: String
+	-- |Long protocol name
 	, plongname :: Maybe String
+	-- |Free-text protocol description
 	, pdescription :: Maybe String
+	-- |List of publication references describing this protocol
 	, pref :: [String]
+	-- |Feature references of this protocol
 	, pfeatures :: M.Map String (Maybe String)
 	} deriving Show
 
-data Database = Database {
-	  dalgos :: M.Map String Protocol
-	, dfeatures :: M.Map String Feature
-	, dpublications :: [T]
-	} deriving Show
-
+-- |A MAC protocol feature
 data Feature = Feature {
+	-- |Referenceable name
 	  fname :: String
+	-- |Its description
 	, fdescription :: Maybe String
 	} deriving Show
 
-type FeatureList = M.Map String Feature
+-- |The whole database
+data Database = Database {
+	-- |Key-value pair for each protocol
+	  dalgos :: M.Map String Protocol
+	-- |Global list of available features
+	, dfeatures :: M.Map String Feature
+	-- |Global list of available publications
+	, dpublications :: [T]
+	} deriving Show
 
 instance FromJSON Protocol where
 	parseJSON (Object v) = Protocol
@@ -53,6 +64,12 @@ instance FromJSON Protocol where
 		<*> v .:? "features" .!= M.empty
 	parseJSON _          = mzero
 
+instance FromJSON Feature where
+	parseJSON (Object v) = Feature
+		<$> v .: "name"
+		<*> v .:? "description"
+	parseJSON _          = mzero
+
 instance FromJSON Database where
 	parseJSON (Object v) = Database
 		<$> v .: "algos"
@@ -60,15 +77,11 @@ instance FromJSON Database where
 		<*> pure []
 	parseJSON _          = mzero
 
-instance FromJSON Feature where
-	parseJSON (Object v) = Feature
-		<$> v .: "name"
-		<*> v .:? "description"
-	parseJSON _          = mzero
-
+-- |Safe head function
 safeHead [] = Nothing
 safeHead (x:_) = Just x
 
+-- |Find publication with identifier `ident`
 findPublication db ident = safeHead $ filter (\x -> ident == E.identifier x) $ dpublications db
 
 -- |Get a list of all publications referenced by proto @p@
@@ -77,6 +90,7 @@ protoPublications db p = map (findPublication db) (pref p)
 -- |Find all referenced features’ names
 referencedFeatures db = nub $ sort $ concat $ map (M.keys . pfeatures) $ M.elems $ dalgos db
 
+-- |Read protocol and bib database from file
 readDb :: String -> IO Database
 readDb f = do
 	yamlres <- decodeFileEither f
@@ -91,18 +105,17 @@ readDb f = do
 
 maybeToHtml = maybe (toHtml ("" :: String)) toHtml
 
-head' [] = Nothing
-head' (x:_) = Just x
-
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
 resolveDoi q = "http://doi.org/" ++ q
 
+-- |List of protocol features
 protofeatures :: Database -> Protocol -> Html ()
 protofeatures _ p | (M.size $ pfeatures p) == 0 = mempty
 protofeatures db p = do
 	dt_ "Features"
 	dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
+-- |List of protocol publications
 protopapers :: [T] -> Html ()
 protopapers pubs | length pubs == 0 = mempty
 protopapers pubs = do
@@ -111,17 +124,19 @@ protopapers pubs = do
 		then p_ $ bibentry $ head pubs
 		else ol_ $ forM_ pubs (li_ . bibentry)
 
+-- |Protocol description
 protodesc :: Protocol -> Html ()
 protodesc Protocol { pdescription = Nothing } = mempty
 protodesc Protocol { pdescription = Just desc } = do
 	dt_ "Description"
 	dd_ $ p_ $ toHtml desc
 
+-- |One protocol
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
 	let
 		pubs = catMaybes $ protoPublications db p
-		firstpub = head' pubs
+		firstpub = safeHead pubs
 		field key = firstpub >>= (return . E.fields) >>= lookup key
 	in
 		section_ [
@@ -203,6 +218,7 @@ protocols db = section_ [id_ "protocols"] $ do
 			option_ [value_ "year"] "Year"
 	forM_ (M.toList $ dalgos db) (protoentry db)
 
+-- |Page template
 page db attrib = doctypehtml_ $ do
 	head_ $ do
 		title_ "comatose"
@@ -221,8 +237,10 @@ page db attrib = doctypehtml_ $ do
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
 		extjs "script.js"
 
+-- |Render page
 render f db attribution = renderToFile f (page db attribution)
 
+-- |Read attributions from bibtex file
 readAttributions = getDataFileName "data/attribution.bib" >>= parseFromFile file
 
 copyDataFile source dest = getDataFileName source >>= (\x -> copyFile x dest)
