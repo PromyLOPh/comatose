@@ -614,6 +614,19 @@ algos:
         name: ER-MAC
         longname: Emergency Response MAC
         ref: [ermac]
+        related: [smac, tmac, bmac, xmac, zmac, pmac, crankshaft, ebmac]
+        description: >
+            Hybrid protocol for emergency response WSNs, low and high priority
+            data, TDMA schedule in normal operation with short contention
+            period to support node additions, nodes with high-priority packets
+            can content for slot access by sending a request to the owner
+        features:
+            deployment.fixed: # but nodes can join/leave dynamically
+            application.wsn:
+            time.discrete:
+            access.scheduled:
+            access.reservation:
+            realtime.guaranteed:
     prioritymac:
         # 4 qos classes, tdma with preemption
         name: PriorityMAC
