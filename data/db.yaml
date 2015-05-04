@@ -1129,4 +1129,8 @@ algos:
         name: EEDF-MAC
         ref: [eedfmac]
         longname: Energy efficient earliest deadline first
+    macari:
+        name: MaCARI
+        ref: [macari]
+        longname: MAC protocol for Ad-hoc Industrial Network
 
