@@ -1111,4 +1111,13 @@ algos:
         name: EB-MAC
         longname: Event Based MAC
         ref: [ebmac]
+        related: [smac, tmac, funneling, zmac, bmac, lpl, xmac, bmacplus, macap, bma]
+    macap:
+        name: MACA-P
+        ref: [macap]
+        longname: Medium Access via Collision Avoidance with Enhanced Parallelism
+    bmacplus:
+        name: B-MAC+
+        ref: [bmacplus]
+        related: [wisemac, bmac]
 
