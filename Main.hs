@@ -226,7 +226,7 @@ protocols db = section_ [id_ "protocols"] $ do
 	div_ [id_ "protosort", class_ "form-inline"] $ do
 		label_ [for_ "filter"] "Filter"
 		" "
-		input_ [id_ "filter", type_ "text", class_ "form-control"]
+		input_ [id_ "filter", type_ "search", class_ "form-control"]
 		" "
 		label_ [for_ "sort"] "Sort by"
 		" "
