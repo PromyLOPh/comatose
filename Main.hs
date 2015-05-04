@@ -133,11 +133,9 @@ protoentry db (ident, p) =
 			, data_ "year" (maybe "" T.pack $ field "year")
 			] $ do
 			h3_ $ do
-				toHtml $ pname p
+				a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] $ toHtml $ pname p
 				" "
 				maybe "" (small_ . toHtml) $ plongname p
-				" "
-				small_ $ a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] "¶"
 			dl_ $ do
 				protopapers pubs
 				protodesc p
