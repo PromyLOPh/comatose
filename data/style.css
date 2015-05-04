@@ -9,3 +9,15 @@
 .protocol dt:after {
 	content: ":";
 }
+
+.protocol .related ul {
+	list-style-type: none;
+	margin: 0;
+	padding 0;
+}
+.protocol .related li {
+	display: inline;
+	margin: 0;
+	margin-right: 1em;
+	padding 0;
+}

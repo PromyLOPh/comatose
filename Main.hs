@@ -35,6 +35,9 @@ data Protocol = Protocol {
 	, pref :: [String]
 	-- |Feature references of this protocol
 	, pfeatures :: M.Map String (Maybe String)
+	-- |List of references to other protocols, usually from the paper’s
+	-- “related work” section
+	, prelated :: [String]
 	} deriving Show
 
 -- |A MAC protocol feature
@@ -62,6 +65,7 @@ instance FromJSON Protocol where
 		<*> v .:? "description"
 		<*> v .:? "ref" .!= []
 		<*> v .:? "features" .!= M.empty
+		<*> v .:? "related" .!= []
 	parseJSON _          = mzero
 
 instance FromJSON Feature where
@@ -131,6 +135,18 @@ protodesc Protocol { pdescription = Just desc } = do
 	dt_ "Description"
 	dd_ $ p_ $ toHtml desc
 
+protorelated :: Database -> Protocol -> Html ()
+protorelated _ p | null $ prelated p = mempty
+protorelated db p =
+	let
+		algos = dalgos db
+		lookup k = M.lookup k algos >>= \y -> return (k, y)
+		rel = catMaybes $ map lookup $ prelated p
+	in do
+		dt_ "Related"
+		dd_ [class_ "related"] $ ul_ $ forM_ rel $
+			\(ident, x) -> li_ $ a_ [href_ (T.pack $ '#':ident)] $ toHtml $ pname x
+
 -- |One protocol
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
@@ -155,6 +171,7 @@ protoentry db (ident, p) =
 				protopapers pubs
 				protodesc p
 				protofeatures db p
+				protorelated db p
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
 
