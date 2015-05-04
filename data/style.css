@@ -3,6 +3,11 @@
 	display: hidden;
 }
 
+.protocol:target {
+	/* mark color */
+	background-color: #fcf8e3;
+}
+
 .protocol dt {
 	font-weight: lighter;
 }
