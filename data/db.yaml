@@ -1089,7 +1089,7 @@ algos:
     syncwuf:
         name: SyncWUF
         ref: [syncwuf]
-    speckmacd:
+    speckmac:
         name: SpeckMAC
         ref: [speckmac]
     mxmac:
@@ -1103,6 +1103,7 @@ algos:
         name: EDF
         longname: Earliest Deadline First
         ref: [edf]
+        related: [prma, fama, bb]
     dbmac:
         name: DB-MAC
         longname: Delay-Bounded MAC
@@ -1120,4 +1121,12 @@ algos:
         name: B-MAC+
         ref: [bmacplus]
         related: [wisemac, bmac]
+    bb:
+        name: BB contention
+        ref: [bb]
+        longname: Black burst contention
+    eedfmac:
+        name: EEDF-MAC
+        ref: [eedfmac]
+        longname: Energy efficient earliest deadline first
 
