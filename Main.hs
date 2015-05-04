@@ -111,6 +111,12 @@ protopapers pubs = do
 		then p_ $ bibentry $ head pubs
 		else ol_ $ forM_ pubs (li_ . bibentry)
 
+protodesc :: Protocol -> Html ()
+protodesc Protocol { pdescription = Nothing } = mempty
+protodesc Protocol { pdescription = Just desc } = do
+	dt_ "Description"
+	dd_ $ p_ $ toHtml desc
+
 protoentry :: Database -> (String, Protocol) -> Html ()
 protoentry db (ident, p) =
 	let
@@ -134,6 +140,7 @@ protoentry db (ident, p) =
 				small_ $ a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] "¶"
 			dl_ $ do
 				protopapers pubs
+				protodesc p
 				protofeatures db p
 
 extcss url = link_ [rel_ "stylesheet", type_ "text/css", href_ url]
