@@ -15,6 +15,7 @@ import Text.BibTeX.Entry as E
 import qualified Data.Map as M
 import Text.Parsec.Error
 import Text.ParserCombinators.Parsec.Prim
+import Text.Printf (printf)
 import qualified Data.ByteString.Lazy as BS
 import System.FilePath ((<.>), splitExtension)
 import System.Directory (copyFile)
@@ -38,6 +39,8 @@ data Protocol = Protocol {
 	-- |List of references to other protocols, usually from the paper’s
 	-- “related work” section
 	, prelated :: [String]
+	-- |Relevance of this protocol, calculated (pun intended)
+	, prank :: Int
 	} deriving Show
 
 -- |A MAC protocol feature
@@ -66,6 +69,7 @@ instance FromJSON Protocol where
 		<*> v .:? "ref" .!= []
 		<*> v .:? "features" .!= M.empty
 		<*> v .:? "related" .!= []
+		<*> return 0
 	parseJSON _          = mzero
 
 instance FromJSON Feature where
@@ -105,7 +109,16 @@ readDb f = do
 	bibres <- parseFromFile file (basename <.> "bib")
 	--print bibres
 	let (Right bibdb) = bibres
-	return yamldb { dpublications = bibdb }
+	return $ calcRank $ yamldb { dpublications = bibdb }
+
+-- |Protocol rank/popularity, currently just the number of citations, but could
+-- be something more fancy in the future
+calcRank db =
+	let
+		algos = dalgos db
+		pincoming ident = filter (\(_, x) -> ident `elem` prelated x) $ M.toList algos
+		modify ident p = p { prank = length (pincoming ident) }
+	in db { dalgos = M.mapWithKey modify algos }
 
 maybeToHtml = maybe (toHtml ("" :: String)) toHtml
 
@@ -162,6 +175,7 @@ protoentry db (ident, p) =
 			, data_ "longname" (maybe "" T.pack $ plongname p)
 			, data_ "author" (maybe "" T.pack $ field "author")
 			, data_ "year" (maybe "" T.pack $ field "year")
+			, data_ "rank" (T.pack $ show $ prank p)
 			] $ do
 			h3_ $ do
 				a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] $ toHtml $ pname p
@@ -233,6 +247,7 @@ protocols db = section_ [id_ "protocols"] $ do
 		select_ [id_ "sort", class_ "form-control"] $ do
 			option_ [value_ "name"] "Name"
 			option_ [value_ "year"] "Year"
+			option_ [value_ "rank"] "Rank"
 	forM_ (M.toList $ dalgos db) (protoentry db)
 
 -- |Page template
