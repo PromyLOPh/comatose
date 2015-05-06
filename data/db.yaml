@@ -191,6 +191,7 @@ algos:
         longname: Randomly Addressed Polling
         name: RAP
         ref: [rap]
+        related: []
         # base station polls nodes for random number (multiple times), sorts
         # them and polls the nodes in that order, collisions can occur
         features:
@@ -301,6 +302,7 @@ algos:
         longname: Floor Acquisition Multiple Access
         name: FAMA
         ref: [fama]
+        related: [maca, macaw, csmaca]
     eynpma:
         name: EY-NPMA
         # mac protocol of hiperlan
@@ -319,7 +321,7 @@ algos:
     pamas:
         longname: Power Aware MultiAccess protocol with signaling
         name: PAMAS
-        related: [maca]
+        related: [maca, macaw, fama, macapr, ribtma]
         ref: [pamas]
         #features: [multichannel, rtscts, busytone]
         features:
@@ -393,6 +395,7 @@ algos:
         name: S-MAC
         #features: [rtscts]
         ref: [smac]
+        related: [dcf, macaw, pamas, leach, smacs, woo2001]
     tmac:
         longname: Timeout MAC
         name: T-MAC
@@ -559,8 +562,7 @@ algos:
     zmac:
         longname: Zebra MAC
         name: Z-MAC
-        #features: [discrete-time, distributed]
-        related: [csma, tdma]
+        related: [smac, tmac, bmac, lpl, sift, bma, trama, ptdma]
         ref: [zmac]
     mhmac:
         name: MH-MAC
@@ -598,6 +600,7 @@ algos:
         #longname: none
         name: X-MAC
         ref: [xmac]
+        related: [smac, tmac, bmac, wisemac]
         features:
             # actually: duty-cycled wsn
             application.wsn:
@@ -661,6 +664,7 @@ algos:
         longname: Berkeley MAC
         name: B-MAC
         ref: [bmac]
+        related: [alohas, woo2001, mica, elhoiydi2002, wisemac, smac, pamas, tmac]
     rtlink:
         name: RT-Link
         ref: [rtlink]
