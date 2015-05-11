@@ -59,9 +59,8 @@ features:
         name: Powersave mechanisms
     power.dutycycling:
         name: Duty-cycling
-    # XXX Is this a powersave mechanism?
     power.lpl:
-        name: Low-power listening
+        name: Low-power listening/preamble sampling
 
     reliability:
         name: Reliability machanisms
@@ -163,6 +162,7 @@ algos:
         longname: Busy Tone Multiple Access
         name: BTMA
         ref: [btma]
+        related: [csma, alohap]
     ribtma:
         longname: Receiver Initiated Busy Tone Multiple Access
         name: RI-BTMA
@@ -382,8 +382,8 @@ algos:
     trama:
         longname: traffic-adaptive medium access protocol
         name: TRAMA
-        ref: [trama]
-        #features: [discrete-time, distributed]
+        ref: [trama, trama2]
+        related: [dcf, pamas, woo2001, smac, smacs, nama]
         features:
             time.discrete:
     nama:
@@ -394,7 +394,7 @@ algos:
         longname: Sensor MAC
         name: S-MAC
         #features: [rtscts]
-        ref: [smac]
+        ref: [smac, smac2]
         related: [dcf, macaw, pamas, leach, smacs, woo2001]
     tmac:
         longname: Timeout MAC
@@ -520,9 +520,8 @@ algos:
     leach:
         longname: Low-Energy Adaptive Clustering Hierarchy
         name: LEACH
-        related: [tdma]
-        #features: [discrete-time]
-        ref: [leach]
+        ref: [leach, leach2]
+        related: []
     # no info available
     #leachc:
     #    name: LEACH-C
@@ -542,11 +541,11 @@ algos:
         name: PMAC
         related: [tdma]
         ref: [pmac]
-    rmac:
+    rmac2007b:
         longname: Routing-Enhanced MAC
         name: RMAC
         related: [smac]
-        ref: [rmac]
+        ref: [rmac2007b]
     dmac:
         name: DMAC
         longname: Data-Gathering MAC
@@ -555,6 +554,7 @@ algos:
         longname: Wireless Sensor MAC
         name: WiseMAC
         ref: [wisemac]
+        related: [csma, macaw, smac, stem]
     rimac:
         longname: Receiver-Initiated MAC
         name: RI-MAC
@@ -684,6 +684,7 @@ algos:
     sift:
         name: Sift
         ref: [sift]
+        related: [macaw, fama, leach, woo2001, smac]
     rrmac:
         longname: Realtime/reliable MAC # ?
         name: RRMAC
@@ -741,7 +742,7 @@ algos:
         name: O-MAC
         ref: [omac]
     # from the mac alphabet soup
-    mucmac:
+    mumac:
         #longname: none
         name: μ-MAC
         ref: [mumac]
@@ -763,10 +764,12 @@ algos:
     bitmac:
         name: BitMAC
         ref: [bitmac]
+        related: [arisha2002, wisemac, leach, bma, dmac, trama, lmac, smac]
     bma:
         longname: Bit-map assisted MAC
         name: BMA
         ref: [bma]
+        related: [leach, pact, smacs, psaloha, csma, smac]
     bpmac:
         name: BP-MAC
         # no ref available?
@@ -804,6 +807,7 @@ algos:
     woo2001:
         name: Woo’s proposal
         ref: [woo2001]
+        related: [csma, btma, alohap, alohas, pamas, macaw]
     dwmac:
         longname: Demand Wakeup MAC
         name: DW-MAC
@@ -928,6 +932,8 @@ algos:
         name: SMACS
         longname: Self-Organizing Medium Access Control for Sensor Networks
         ref: [smacs]
+        # XXX: incomplete
+        related: [maca, macaw]
     sotp:
         name: SOTP
         longname: Self-Organized TDMA Protocol
@@ -1103,6 +1109,7 @@ algos:
         name: STEM
         longname: Sparse Topology and Energy Management
         ref: [stem]
+        related: [smac, guo2001]
     edf:
         name: EDF
         longname: Earliest Deadline First
@@ -1137,4 +1144,67 @@ algos:
         name: MaCARI
         ref: [macari]
         longname: MAC protocol for Ad-hoc Industrial Network
+    ptdma:
+        name: PTDMA
+        longname: Probabilistic TDMA
+        ref: [ptdma]
+        related: [alohap, gra]
+    gra:
+        name: GRA
+        longname: Group-random access
+        ref: [gra]
+        related: [alohap, alohas]
+    acmac:
+        name: AC-MAC
+        longname: Adaptive Coorinated MAC
+        ref: [acmac]
+    teamac:
+        name: TEA-MAC
+        longname: Throughput and Energy-Aware MAC
+        ref: [teamac]
+    asteamac:
+        name: asTEA-MAC
+        longname: throughput and energy-aware medium-access-control protocol with adjustable sleeps
+        ref: [acteamac]
+        related: [smacs, smac, tmac, demac, wisemac, dmac, pmac, teamac]
+    csmap:
+        name: CSMA/p*
+        longname: nonpersistent CSMA
+        ref: [csmap]
+        related: [smac, macaw, fama, sift, woo2001, leach, ptdma]
+    srsa:
+        name: SRSA
+        longname: SRSA
+        ref: [srsa]
+        related: [smac, leach, stdma, btma, arisha2002, elhoiydi2002, pamas, trama]
+    rmac2007a:
+        name: R-MAC
+        longname: Reservation MAC
+        ref: [rmac2007a]
+        related: [smac, tmac, trama, mumac, zmac, bmac, pmac]
+    asmac2008:
+        name: AS-MAC
+        longname: Asynchronous Scheduled MAC
+        ref: [asmac2008]
+        related: [smac, tmac, scpmac, bmac, xmac, wisemac, sparemac]
+    asmac2010:
+        name: AS-MAC
+        longname: Adaptive Scheduling MAC
+        ref: [asmac2010]
+    sparemac:
+        name: SPARE MAC
+        longname: Slot Periodic Assignment for Reception
+        ref: [sparemac]
+        related: [smac, pamas, dmac, trama, nama, tdmaw]
+    tdmaw:
+        name: TDMA-W
+        ref: [tdmaw]
+        related: [smac, trama, tmac]
+    stdma:
+        name: Spatial TDMA
+        ref: [stdma]
+    demac:
+        name: DE-MAC
+        longname: Distributed energy-aware MAC
+        ref: [demac]
 
