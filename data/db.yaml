@@ -167,6 +167,7 @@ algos:
         longname: Receiver Initiated Busy Tone Multiple Access
         name: RI-BTMA
         ref: [ribtma]
+        related: [alohap, csma]
     isma:
         longname: Idle Sense Multiple Access
         # or: Idle Signal Multiple Access ???
@@ -390,6 +391,7 @@ algos:
         longname: Node-Activation Multiple Access
         name: NAMA
         ref: [nama]
+        related: []
     smac:
         longname: Sensor MAC
         name: S-MAC
@@ -528,8 +530,8 @@ algos:
     lmac:
         name: LMAC
         longname: Lightweight Medium Access Control
-        #features: [discrete-time, distributed]
         ref: [lmac]
+        related: [smac, emacs]
     mlmac:
         name: MLMAC
         longname: Mobile LMAC
@@ -537,9 +539,9 @@ algos:
         #features: [distributed, discrete-time]
         ref: [mlmac]
     pmac:
-        longname: Pattern MAC
+        longname: Pattern-MAC
         name: PMAC
-        related: [tdma]
+        related: [smac, tmac, dmac, leach]
         ref: [pmac]
     rmac2007b:
         longname: Routing-Enhanced MAC
@@ -664,7 +666,7 @@ algos:
         longname: Berkeley MAC
         name: B-MAC
         ref: [bmac]
-        related: [alohas, woo2001, mica, elhoiydi2002, wisemac, smac, pamas, tmac]
+        related: [alohas, woo2001, mica, psaloha, wisemac, smac, pamas, tmac]
     rtlink:
         name: RT-Link
         ref: [rtlink]
@@ -882,9 +884,6 @@ algos:
         name: Guo’s proposal
         ref: [guo2001]
     # cannot find the position-enabled mac (pmac)
-    elhoiydi2002:
-        name: El-Hoiydi’s proposal
-        ref: [elhoiydi2002]
     qmac2006:
         longname: Query MAC # ?
         name: Q-MAC
@@ -1069,6 +1068,7 @@ algos:
     psaloha:
         name: Preamble Sampling ALOHA
         ref: [psaloha]
+        related: [alohap, csmanp]
     mica:
         #name: Preamble Sampling CSMA
         name: Mica
@@ -1162,6 +1162,7 @@ algos:
         name: TEA-MAC
         longname: Throughput and Energy-Aware MAC
         ref: [teamac]
+        related: [tmac, smacs, demac, arc, macaw, dcf, pamas, smac, woo2001]
     asteamac:
         name: asTEA-MAC
         longname: throughput and energy-aware medium-access-control protocol with adjustable sleeps
@@ -1176,7 +1177,7 @@ algos:
         name: SRSA
         longname: SRSA
         ref: [srsa]
-        related: [smac, leach, stdma, btma, arisha2002, elhoiydi2002, pamas, trama]
+        related: [smac, leach, stdma, btma, arisha2002, npcsmaps, pamas, trama]
     rmac2007a:
         name: R-MAC
         longname: Reservation MAC
@@ -1203,6 +1204,7 @@ algos:
     stdma:
         name: Spatial TDMA
         ref: [stdma]
+        related: []
     demac:
         name: DE-MAC
         longname: Distributed energy-aware MAC
