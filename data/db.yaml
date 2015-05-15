@@ -461,10 +461,10 @@ algos:
         name: GRID-B
         ref: [gridb]
         #features: [adhoc]
-    mcmac:
+    mcmac2002:
         longname: Multi-Code MAC
         name: MC MAC
-        ref: [mcmac]
+        ref: [mcmac2002]
         #features: [adhoc]
     wca:
         longname: Weighted clustering algorithm
@@ -476,10 +476,10 @@ algos:
         name: DBTMA
         ref: [dbtma]
         #features: [adhoc]
-    mmac:
+    mmac2002:
         longname: Multi-Hop RTS MAC
         name: MMAC
-        ref: [mmac]
+        ref: [mmac2002]
         #features: [adhoc]
     dprma:
         longname: Distributed PRMA
@@ -532,12 +532,12 @@ algos:
         longname: Lightweight Medium Access Control
         ref: [lmac]
         related: [smac, emacs]
-    mlmac:
+    mlmac2007:
         name: MLMAC
         longname: Mobile LMAC
         related: [lmac, tdma]
         #features: [distributed, discrete-time]
-        ref: [mlmac]
+        ref: [mlmac2007]
     pmac:
         longname: Pattern-MAC
         name: PMAC
@@ -611,6 +611,7 @@ algos:
         name: QoS-MAC
         # kumar2014 calls it qos-mac
         ref: [qosmac]
+        related: [fmac, pedamacs, dmac, smac, saxena2008, qmac]
     pedamacs:
         name: PEDAMACS
         longname: Power Efficient and Delay Aware MAC for Sensor Networks
@@ -739,10 +740,10 @@ algos:
             reliability.retransmission:
             # ?
             access.random:
-    omac:
+    omac2006:
         #longname: none
         name: O-MAC
-        ref: [omac]
+        ref: [omac2006]
     # from the mac alphabet soup
     mumac:
         #longname: none
@@ -755,10 +756,10 @@ algos:
             # contention period + contention-free period
             access.random:
             access.reservation:
-    amac:
+    amac2010:
         #longname: none
         name: A-MAC
-        ref: [amac]
+        ref: [amac2010]
     ailmac:
         longname: Adaptive, Information-centric and lightweight MAC
         name: AI-LMAC
@@ -783,22 +784,22 @@ algos:
     buzzbuzz:
         name: BuzzBuzz
         ref: [buzzbuzz]
-    cmac:
+    cmac2009b:
         #longname: Concurrent MAC?
         name: C-MAC
-        ref: [cmac]
+        ref: [cmac2009b]
     ccmac:
         longname: Correlation-based Collaborative MAC
         name: CC-MAC
         ref: [ccmac]
-    cmac2009:
+    cmac2009a:
         longname: Convergent MAC
         name: CMAC
-        ref: [cmac2009]
-    cmacchowdhury2009:
+        ref: [cmac2009a]
+    cmac2006:
         #longname: none
         name: CMAC
-        ref: [cmacchowdhury2009]
+        ref: [cmac2006, cmac2009c]
     crankshaft:
         name: Crankshaft
         ref: [crankshaft]
@@ -907,7 +908,7 @@ algos:
     rlmac:
         name: RL-MAC
         longname: Reinforced Learning MAC
-        ref: [rlmac]
+        ref: [rlmac2006a, rlmac2006b]
     rmac2004:
         longname: Randomized MAC # ?
         name: RMAC
@@ -1017,10 +1018,10 @@ algos:
             time.discrete:
             access.schedule:
             reliability.retransmission: # ?
-    camac:
+    camac2011:
         name: CA-MAC
         longname: Context-aware MAC
-        ref: [camac]
+        ref: [camac2011]
     uctdma:
         name: UC-TDMA
         longname: User configured TDMA
@@ -1209,4 +1210,133 @@ algos:
         name: DE-MAC
         longname: Distributed energy-aware MAC
         ref: [demac]
+    saxena2008:
+        name: Saxena’s proposal
+        ref: [saxena2008]
+    omac2007:
+        name: O-MAC
+        longname: Organized MAC
+        ref: [omac2007]
+    rtmac2009:
+        name: RT-MAC
+        longname: Real-Time MAC
+        ref: [rtmac2009]
+    seamac:
+        name: SEA-MAC
+        longname: Simple Energy Aware MAC
+        ref: [seamac]
+    etmac:
+        name: ET-MAC
+        longname: Energy-Efficient and High Throughput MAC
+        ref: [etmac]
+    tapdcmac:
+        name: TA-PDC-MAC
+        longname: Traffic Adaptive PDC-MAC
+        ref: [tapdcmac]
+    eemac:
+        name: EE-MAC
+        longname: Energy Efficient MAC
+        ref: [eemac]
+    uwanmac:
+        name: UWAN-MAC
+        longname: Underwater Acoustic Network MAC
+        ref: [uwanmac]
+    rmac2007c:
+        name: R-MAC
+        longname: Reservation-based MAC
+        ref: [rmac2007c]
+    mmac2005:
+        name: MMAC
+        longname: Mobility-Adaptive MAC
+        ref: [mmac2005, mmac2006]
+    peleato2006:
+        name: Peleato’s proposal
+        ref: [peleato2006]
+    mcmac2006:
+        name: MCMAC
+        longname: Multi-channel MAC
+        ref: [mcmac2006]
+    teem:
+        name: TEEM
+        longname: Traffic aware, Energy Efficient MAC
+        ref: [teem]
+    tdmaasap:
+        name: TDMA-ASAP
+        longname: TDMA with Adaptive Slot-Stealing And Parallelism
+        ref: [tdmaasap]
+    tfmac:
+        name: TF-MAC
+        longname: Time-Frequency MAC
+        ref: [tfmac]
+    breath:
+        name: Breath
+        ref: [breath]
+    rlmac:
+        name: RL-MAC
+        longname: Reinforced learning MAC
+        ref: [rlmac]
+    pqmac:
+        name: PQMAC
+        longname: priority-based quality-of-service MAC
+        ref: [pqmac]
+    qmac2010:
+        name: QMAC
+        longname: quorum-based MAC
+        ref: [qmac2010]
+    cmac2010:
+        name: C-MAC
+        longname: Classifier MAC
+        ref: [cmac2010]
+    camac2010:
+        name: CA-MAC
+        longname: Channel Access MAC
+        ref: [cmac2010]
+    commac:
+        name: COM-MAC
+        longname: clustered on-demand MAC
+        ref: [commac]
+    dgram:
+        name: DGRAM
+        longname: Delay Guaranteed Routing and MAC Protocol
+        ref: [dgram]
+    rtmac2007:
+        name: RT-MAC
+        longname: realtime MAC
+        ref: [rtmac2007]
+    odmac:
+        name: ODMAC
+        longname: On-Demand MAC
+        ref: [odmac]
+    lwtmac:
+        name: LWT-MAC
+        longname: LPL with Wake up after Transmission
+        ref: [lwtmac]
+    llmac:
+        name: LL-MAC
+        longname: Low Latency MAC
+        ref: [llmac]
+    amac2007:
+        name: AMAC
+        ref: [amac2007]
+    diffmac:
+        name: Diff-MAC
+        ref: [diffmac]
+    areamac:
+        name: AREA-MAC
+        ref: [areamac]
+    tcmac:
+        name: TC-MAC
+        longname: Transport-Controlled MAC
+        ref: [tcmac]
+    mlmac2011:
+        name: ML-MAC
+        longname: multi-layer MAC
+        ref: [mlmac2011]
+    beam:
+        name: BEAM
+        longname: Burst-Aware Energy-Efficient Adaptive MAC
+        ref: [beam]
+    tdmawsn:
+        name: TDMA-WSN
+        ref: [tdmawsn]
 
