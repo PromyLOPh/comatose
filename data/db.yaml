@@ -527,7 +527,7 @@ algos:
     # no info available
     #leachc:
     #    name: LEACH-C
-    lmac:
+    lmac2004:
         name: LMAC
         longname: Lightweight Medium Access Control
         ref: [lmac]
@@ -1339,4 +1339,72 @@ algos:
     tdmawsn:
         name: TDMA-WSN
         ref: [tdmawsn]
+    cfma:
+        name: CFMA
+        longname: Collision Free Mobility Adaptive
+        ref: [cfma]
+    xmachiavel:
+        name: X-Machiavel
+        ref: [xmachiavel]
+    boxmac:
+        name: BOX-MAC
+        longname: Burst-Oriented X-MAC
+        ref: [boxmac]
+    ubmac:
+        name: UBMAC
+        longname: Uncertainty-Driven BMAC
+        ref: [ubmac]
+    maxmac:
+        name: MaxMAC
+        ref: [maxmac]
+    adca:
+        name: ADCA
+        longname: Asynchronous Duty Cycle Adjustment
+        ref: [adca]
+    hesmac:
+        name: HES-MAC
+        longname: High Efficient Sensor MAC
+        ref: [hesmac]
+    gragopoulos2007:
+        name: Gragopoulos’s proposal
+        ref: [gragopoulos2007]
+    obmac:
+        name: OBMAC
+        longname: Overhearing Based MAC
+        ref: [obmac]
+    asmac2007:
+        name: AS-MAC
+        longname: Adaptive Schedule MAC
+        ref: [asmac2007]
+    lmac2007:
+        name: L-MAC
+        longname: Low-Latency MAC
+        ref: [lmac2007]
+    wmac:
+        name: W-MAC
+        longname: Wide Duty Cycle MAC
+        ref: [wmac]
+    mrpm:
+        name: MRPM
+        longname: Medium Reservation Preamble Based MAC
+        ref: [mrpm]
+    mdsmac:
+        name: MD-SMAC
+        longname: Modified S-MAC
+        ref: [mdsmac]
+    prmac:
+        name: PR-MAC
+        longname: Path-oriented Real-time MAC
+        ref: [prmac]
+    lemac:
+        name: LE-MAC
+        longname: Latency and energy aware MAC
+        ref: [lemac]
+    srtdma:
+        name: Scaleable Redundant TDMA
+        ref: [srtdma]
+    wirarb:
+        name: WirArb
+        longname: Wireless Arbitration
+        ref: [wirarb]
 
