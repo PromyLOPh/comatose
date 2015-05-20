@@ -257,7 +257,7 @@ algos:
         longname: Packet Reservation Multiple Access
         name: PRMA
         ref: [prma]
-        related: [raloha, saloha]
+        related: [alohap, alohas, raloha]
         description: >
             Time slots grouped into frames, successful transmission of packet
             (ALOHA contention) reserves slot for next frame until node does not
@@ -495,6 +495,7 @@ algos:
         name: MACA/PR
         #features: [qos, discrete-time, slot-reservation, rtscts, adhoc]
         ref: [macapr]
+        related: [maca, macaw, fama]
     dps:
         longname: Distributed Priority Scheduling
         name: DPS
@@ -552,6 +553,7 @@ algos:
         name: DMAC
         longname: Data-Gathering MAC
         ref: [dmac]
+        related: [smac, tmac, wisemac, pamas]
     wisemac:
         longname: Wireless Sensor MAC
         name: WiseMAC
@@ -616,6 +618,7 @@ algos:
         name: PEDAMACS
         longname: Power Efficient and Delay Aware MAC for Sensor Networks
         ref: [pedamacs]
+        related: [smac, guo2001, havinga2000, trama, tmac]
     ermac:
         name: ER-MAC
         longname: Emergency Response MAC
@@ -756,6 +759,7 @@ algos:
             # contention period + contention-free period
             access.random:
             access.reservation:
+        related: [smac, tmac, trama]
     amac2010:
         #longname: none
         name: A-MAC
@@ -838,6 +842,7 @@ algos:
     funneling:
         name: Funneling-MAC
         ref: [funneling]
+        related: [bmac, zmac, smac, tmac, woo2001, trama, arisha2002, bma]
     gmac:
         longname: Gateway MAC
         name: G-MAC
@@ -877,6 +882,7 @@ algos:
         name: PACT
         longname: Power aware clustered TDMA
         ref: [pact]
+        related: [leach]
     pcm:
         name: PCM
         longname: Power Control MAC
@@ -1129,6 +1135,7 @@ algos:
         name: MACA-P
         ref: [macap]
         longname: Medium Access via Collision Avoidance with Enhanced Parallelism
+        related: [maca, macaw, seedex]
     bmacplus:
         name: B-MAC+
         ref: [bmacplus]
@@ -1210,9 +1217,11 @@ algos:
         name: DE-MAC
         longname: Distributed energy-aware MAC
         ref: [demac]
+        related: [pamas, smac, woo2001]
     saxena2008:
         name: Saxena’s proposal
         ref: [saxena2008]
+        related: [smac, tmac]
     omac2007:
         name: O-MAC
         longname: Organized MAC
@@ -1407,4 +1416,14 @@ algos:
         name: WirArb
         longname: Wireless Arbitration
         ref: [wirarb]
+    raloha:
+        name: R-Aloha
+        longname: Reservation Aloha
+    havinga2000:
+        name: Havinga’s proposal
+        ref: [havinga2000]
+        related: []
+    seedex:
+        name: SEEDEX
+        ref: [seedex]
 
