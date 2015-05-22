@@ -319,6 +319,7 @@ algos:
         longname: A Five-Phase Reservation Protocol
         name: FPRP
         ref: [fprp]
+        related: []
     pamas:
         longname: Power Aware MultiAccess protocol with signaling
         name: PAMAS
@@ -334,7 +335,7 @@ algos:
         longname: Hop-reservation multiple access
         name: HRMA
         ref: [hrma]
-        #features: [adhoc, discrete-time, slot-reservation, collision-free, multichannel]
+        related: [alohap, alohas, macaw]
         features:
             application.adhoc:
             time.discrete:
@@ -354,6 +355,7 @@ algos:
         name: ADAPT
         longname: A Dynamically Adaptive Protocol for Transmission
         ref: [adapt]
+        related: [aloha, maca, macaw, fama, tsma, csmaca]
     rraisa:
         longname: Reservation Random Access – Independent Stations Algorithm
         name: RRA-ISA
@@ -374,6 +376,7 @@ algos:
         longname: Collision Avoidance Time Allocation
         name: CATA
         ref: [cata]
+        related: [alohap, maca, macaw, fama, hrma, fprp]
         # XXX: incomplete
         features:
             time.discrete:
@@ -475,7 +478,7 @@ algos:
         longname: Dual Busy Tone Multiple Access
         name: DBTMA
         ref: [dbtma]
-        #features: [adhoc]
+        related: [ribtma, maca, macaw, alohap, btma, srma, fama, famanps]
     mmac2002:
         longname: Multi-Hop RTS MAC
         name: MMAC
@@ -831,10 +834,12 @@ algos:
         name: EMACs
         longname: EYES MAC
         ref: [emacs]
+        related: [smac]
     fmac:
         longname: Framelet MAC
         name: f-MAC
         ref: [fmac]
+        related: [smac, tmac, mumac, trama, bitmac, csmamps]
     flama:
         name: FLAMA
         longname: Flow-aware Medium Access
@@ -1080,6 +1085,7 @@ algos:
         #name: Preamble Sampling CSMA
         name: Mica
         ref: [mica]
+        related: [smac]
     eaalpl:
         name: EA-ALPL
         longname: Energy Aware Adaptive Low Power Listening
@@ -1088,6 +1094,7 @@ algos:
         name: CSMA-MPS
         longname: Minimum Preamble Sampling MAC Protocol
         ref: [csmamps]
+        related: [wisemac, stem, smac, psaloha, guo2001, woo2001]
     dpsmac:
         name: DPS-MAC
         longname: Dual Preamble Sampling MAC
@@ -1144,6 +1151,7 @@ algos:
         name: BB contention
         ref: [bb]
         longname: Black burst contention
+        related: [maca, fama, gama, macapr, carmantg]
     eedfmac:
         name: EEDF-MAC
         ref: [eedfmac]
@@ -1426,4 +1434,54 @@ algos:
     seedex:
         name: SEEDEX
         ref: [seedex]
+        related: [macaw, fama, macabi, hrma, chma, adapt, abroad, cata, fprp, dbtma, macact]
+    macact:
+        name: MACA/C-T
+        longname: MACA Common-Transmitter-Based
+        ref: [macact]
+        related: [alohap, maca, macaw, fama, dama]
+    macart:
+        name: MACA/R-T
+        longname: MACA Receiver-Transmitter-Based
+        ref: [macact]
+        related: [alohap, maca, macaw, fama, dama]
+    carmantg:
+        name: CARMA-NTG
+        ref: [carmantg]
+        related: [gama, macaw, famapj, maca]
+    gama:
+        name: GAMA
+        longname: Group Allocation Multiple Access
+        ref: [gama]
+        related: [fama, macaw]
+    famapj:
+        name: FAMA-PJ
+        ref: [famapj]
+        related: [maca, macaw, fama, bram, msap]
+    bram:
+        name: BRAM
+        longname: Broadcast recognizing access
+        ref: [bram]
+        related: [bram, alohap, msap]
+    msap:
+        name: MSAP
+        longname: Minislotted alternating priorities
+        ref: [msap]
+        related: [alohap, alohas]
+    dama:
+        name: DAMA
+        longname: Dynamic Allocation Multiple Access
+        ref: [dama]
+    srma:
+        name: SRMA
+        longname: Split-Channel Reservation Multiple Access
+        ref: [srma]
+    famanps:
+        name: FAMA-NPS
+        longname: FAMA with non-persistent packet sensing
+        ref: [famancs]
+    famancs:
+        name: FAMA-NCS
+        longname: FAMA with non-persistent carrier sensing
+        ref: [famancs]
 
