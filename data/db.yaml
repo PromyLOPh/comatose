@@ -263,7 +263,6 @@ algos:
         ref: [frama]
     zhang:
         name: Zhang’s Proposal
-        collisions: false
         ref: [zhang]
     dtmp:
         longname: Disposable Token MAC Protocol
@@ -548,6 +547,7 @@ algos:
         name: Y-MAC
         #features: [discrete-time, carriersense, broadcast, unicast, multichannel]
         ref: [ymac]
+        related: [smac, wisemac, bmac, xmac, pedamacs, lmac2004, crankshaft, funneling, zmac, scpmac, mmsn, mcmac2007, alohaps, scp, dca, chma, mmac2004]
     desynctdma:
         name: DESYNC-TDMA
         related: [tdma]
@@ -1505,12 +1505,40 @@ algos:
         name: SRMA
         longname: Split-Channel Reservation Multiple Access
         ref: [srma]
+        related: [alohap, alohas, csma, btma]
     famanps:
         name: FAMA-NPS
         longname: FAMA with non-persistent packet sensing
         ref: [famancs]
+        related: [csma, btma, ribtma, srma, maca, macaw, alohap, fama, bram, famapj, carma, msap]
     famancs:
         name: FAMA-NCS
         longname: FAMA with non-persistent carrier sensing
         ref: [famancs]
+        # same as above
+        related: [csma, btma, ribtma, srma, maca, macaw, alohap, fama, bram, famapj, carma, msap]
+    sm:
+        name: SM
+        longname: Simple Multichannel MMAC
+        ref: [sm]
+    dca:
+        name: DCA
+        longname: Dynamic Channel Assignment
+        ref: [sm]
+    chma:
+        name: CHMA
+        longname: Channel Hopping Multiple Access
+        ref: [chma]
+    mmac2004:
+        name: MMAC
+        longname: Multi-Channel MAC
+        ref: [mmac2004]
+    mcmac2007:
+        name: McMAC
+        longname: Parallel Rendezvous Multi-Channel MAC
+        ref: [mcmac2007]
+    carma:
+        name: CARMA
+        longname: Collision Avoidance and Resolution Multiple Access
+        ref: [carma]
 
