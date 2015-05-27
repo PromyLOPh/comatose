@@ -15,7 +15,7 @@ $(document).ready (function () {
 		items.detach ().sort (function (nodeA, nodeB) {
 			var a = $(nodeA).data (by);
 			var b = $(nodeB).data (by);
-			if (by == 'rank') {
+			if (by == 'rank' || by == 'year') {
 				a = parseFloat (a);
 				b = parseFloat (b);
 				return a > b ? 1 : (a < b ? -1 : 0);
