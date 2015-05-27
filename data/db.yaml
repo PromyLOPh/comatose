@@ -7,25 +7,41 @@
 features:
     access:
         name: Channel access
+        description: Basic method for channel access
     access.random:
         name: Random
+        description: >
+            Stations access the medium in a random, uncoordinated fashion.
     access.token-passing:
         name: Token-passing
     access.polling:
         name: Polling
+        description: >
+            Base or master station polls slaves, granting them acces to the
+            medium.
     access.reservation:
         name: Dynamic reservation
+        description: >
+            Stations request transmission resources
     access.schedule:
         name: Static schedule
+        description: >
+            Scheduled access to the medium.
 
+    radio:
+        name: Radio
+        description: Features of the radio hardware.
     radio.carriersense:
         name: Carrier sense
 
     topology:
         name: Topology
+        description: The network’s topology.
     topology.singlehop:
         name: Single-Hop
-        description: MAC relies on upper layers to transmit packet to out-of-range stations
+        description: >
+            MAC relies on upper layers to transmit packet to out-of-range
+            stations
     topology.multihop:
         name: Multi-Hop
         description: MAC transports data through multiple hops
@@ -38,7 +54,9 @@ features:
         description: Star
 
     application:
-        name: Intended applications
+        name: Applications
+        description: >
+            Target applications the protocol was designed for or explored with.
     application.wsn:
         name: Wireless Sensor Network
     application.vanet:
@@ -51,7 +69,8 @@ features:
     time:
         name: Time model
     time.discrete:
-        name: Discrete, synchronized
+        name: Discrete
+        description: Discrete and synchronized
     time.continuous:
         name: Continuous
 
@@ -63,7 +82,7 @@ features:
         name: Low-power listening/preamble sampling
 
     reliability:
-        name: Reliability machanisms
+        name: Reliability
     # unreliable is default
     reliability.retransmission:
         name: Retransmission
@@ -75,11 +94,15 @@ features:
         name: Error correcting codes
 
     realtime:
-        name: Real-time features
+        name: Real-time
     realtime.guaranteed:
         name: Guaranteed
+        description: Latency is guaranteed or bounded.
     realtime.probabilistic:
         name: Probabilistic
+        description: >
+            Protocol was designed with latency in mind and tries to reduce it,
+            but an upper bound cannot be guaranteed.
 
     channels:
         name: Channel usage
@@ -106,18 +129,24 @@ features:
 
     deployment:
         name: Deployment
+        description: >
+            How and when stations or the whole network is deployed.
     deployment.static:
         name: Static
-        description: Nodes at fixed/planned positions
+        description: >
+            The network is mostly static. Stations are deployed at
+            fixed posititons.
     deployment.adhoc:
         name: Ad-hoc
-        description: 
+        description: >
+            Supports joining and leaving of stations in an ad-hoc fashion.
+            Stations move around.
 
     # XXX figure out where to put these
     other:
         name: Other features
     other.qos:
-        name: QoS
+        name: Quality of Service
 
 # Algorithms/Protocols
 # ====================

@@ -4,7 +4,7 @@ import Control.Applicative
 import Control.Monad
 import Data.Monoid
 import Data.Yaml
-import Data.List (nub, sort, sortBy)
+import Data.List (nub, sort, sortBy, isPrefixOf)
 import Data.Function (on)
 import Data.Maybe (catMaybes)
 import qualified Data.Text as T
@@ -97,6 +97,16 @@ protoPublications db p = map (findPublication db) (pref p)
 
 -- |Find all referenced features’ names
 referencedFeatures db = nub $ sort $ concat $ map (M.keys . pfeatures) $ M.elems $ dalgos db
+
+filterMap filterF mapF xs = map mapF $ filter filterF xs
+
+-- |Get all features at `level`, starting with 0
+getFeaturesByLevel db level = M.filterWithKey (\k v -> countDots k == level) $ dfeatures db
+	where
+		countDots = length . filter ((==) '.')
+
+-- |Get features by `base` feature
+getFeaturesByBase db base = M.filterWithKey (\k v -> (base ++ ".") `isPrefixOf` k) $ dfeatures db
 
 -- |Read protocol and bib database from file
 readDb :: String -> IO Database
@@ -246,6 +256,20 @@ introduction db =
 			toHtml lastyear
 			"."
 
+-- |List of protocol features
+features :: Database -> Html ()
+features db =
+	section_ [id_ "features"] $ do
+		h2_ "Features"
+		p_ "This section presents so-called “features” that are assigned to each protocol."
+		forM_ (M.toList $ getFeaturesByLevel db 0) $ \(baseident, basefeature) -> do
+			let featureanchor = "feature-" ++ baseident in do
+				h3_ [id_ $ T.pack featureanchor] $ a_ [href_ $ T.pack $ '#':featureanchor] $ toHtml $ fname basefeature
+				maybe mempty (p_ . toHtml) $ fdescription basefeature
+				dl_ $ forM_ (M.toList $ getFeaturesByBase db baseident) $ \(ident, feature) -> do
+					dt_ $ toHtml $ fname feature
+					maybe mempty (dd_ . toHtml) $ fdescription feature
+
 -- | The list of protocols
 protocols :: Database -> Html ()
 protocols db = section_ [id_ "protocols"] $ do
@@ -278,6 +302,7 @@ page db attrib = doctypehtml_ $ do
 			div_ [class_ "page-header"] $ do
 				h1_ "comatose"
 			introduction db
+			features db
 			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
 		extjs "script.js"
