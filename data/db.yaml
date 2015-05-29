@@ -1213,7 +1213,7 @@ algos:
     asteamac:
         name: asTEA-MAC
         longname: throughput and energy-aware medium-access-control protocol with adjustable sleeps
-        ref: [acteamac]
+        ref: [asteamac]
         related: [smacs, smac, tmac, demac, wisemac, dmac, pmac, teamac]
     csmap:
         name: CSMA/p*
