@@ -395,7 +395,7 @@ algos:
     mascara:
         longname: Mobile Access Scheme based on Contention and Reservation for ATM
         name: MASCARA
-        ref: [mascara]
+        ref: [mascara1996, mascara1998]
     dsapp:
         longname: Dynamic Slot Assignment++
         name: DSA++
@@ -478,6 +478,7 @@ algos:
         name: VBS
         ref: [vbs]
         #features: [adhoc]
+        related: [tdmatdd, mascara, dscdma]
     dpcalp:
         longname: Distributed Power Control with Active Link Protection
         name: DPC/ALP
@@ -744,6 +745,7 @@ algos:
         features:
             realtime.guaranteed:
             application.wsn:
+        related: [speed, rap, edf]
     vts:
         longname: Virtual TDMA for Sensors
         name: VTS
@@ -1287,6 +1289,7 @@ algos:
         name: UWAN-MAC
         longname: Underwater Acoustic Network MAC
         ref: [uwanmac]
+        related: [alohap, maca, macaw, pedamacs, smac, fpa, gsa]
     rmac2007c:
         name: R-MAC
         longname: Reservation-based MAC
@@ -1430,6 +1433,7 @@ algos:
         name: W-MAC
         longname: Wide Duty Cycle MAC
         ref: [wmac]
+        related: [smac, scp, xmac, wisemac]
     mrpm:
         name: MRPM
         longname: Medium Reservation Preamble Based MAC
@@ -1453,6 +1457,7 @@ algos:
         name: WirArb
         longname: Wireless Arbitration
         ref: [wirarb]
+        related: [stdma]
     raloha:
         name: R-Aloha
         longname: Reservation Aloha
