@@ -153,14 +153,14 @@ protofeatures :: Database -> Protocol -> Html ()
 protofeatures _ p | (M.size $ pfeatures p) == 0 = mempty
 protofeatures db p = do
 	dt_ "Features"
-	dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+	dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ [data_ "id" (T.pack x)] $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
 -- |List of protocol publications
 protopapers :: [T] -> Html ()
 protopapers pubs | length pubs == 0 = mempty
 protopapers pubs = do
 	dt_ "Published in"
-	dd_ $ if length pubs == 1
+	dd_ [class_ "ref"] $ if length pubs == 1
 		then p_ $ bibentry $ head pubs
 		else ol_ $ forM_ pubs (li_ . bibentry)
 
@@ -194,16 +194,12 @@ protoentry db (ident, p) =
 		section_ [
 			id_ $ T.pack ident
 			, class_ "protocol"
-			, data_ "name" (T.pack $ pname p)
-			, data_ "longname" (maybe "" T.pack $ plongname p)
-			, data_ "author" (maybe "" T.pack $ field "author")
-			, data_ "year" (maybe "" T.pack $ field "year")
 			, data_ "rank" (T.pack $ show $ prank p)
 			] $ do
-			h3_ $ do
-				a_ [href_ (T.pack $ '#':ident), title_ "permalink", class_ "permalink"] $ toHtml $ pname p
+			h3_ [class_ "name"] $ do
+				a_ [href_ (T.pack $ '#':ident), title_ "permalink"] $ toHtml $ pname p
 				" "
-				maybe "" (small_ . toHtml) $ plongname p
+				maybe "" (small_ [class_ "longname"] . toHtml) $ plongname p
 			dl_ $ do
 				protopapers pubs
 				protodesc p
@@ -226,11 +222,11 @@ bibentryurl bib = safeHead $ catMaybes [doi, url]
 bibentry :: E.T -> Html ()
 bibentry bib = do
 	let fields = E.fields bib
-	a_ [href_ $ T.pack $ maybe "" id $ bibentryurl bib] $ maybeToHtml $ lookup "title" fields
+	a_ [href_ $ T.pack $ maybe "" id $ bibentryurl bib, class_ "title"] $ maybeToHtml $ lookup "title" fields
 	", "
-	maybeToHtml $ lookup "author" fields
+	span_ [class_ "author"] $ maybeToHtml $ lookup "author" fields
 	", "
-	maybeToHtml $ lookup "year" fields
+	span_ [class_ "year"] $ maybeToHtml $ lookup "year" fields
 
 -- | References section
 references :: [E.T] -> Html ()
