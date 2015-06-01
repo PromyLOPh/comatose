@@ -26,3 +26,6 @@
 	margin-right: 1em;
 	padding 0;
 }
+.filter-feature {
+	display: hidden;
+}

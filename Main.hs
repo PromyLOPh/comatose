@@ -263,7 +263,9 @@ features db =
 				h3_ [id_ $ T.pack featureanchor] $ a_ [href_ $ T.pack $ '#':featureanchor] $ toHtml $ fname basefeature
 				maybe mempty (p_ . toHtml) $ fdescription basefeature
 				dl_ $ forM_ (M.toList $ getFeaturesByBase db baseident) $ \(ident, feature) -> do
-					dt_ $ toHtml $ fname feature
+					dt_ [class_ "form-inline"] $ let i = T.pack ("filter-feature-" ++ ident) in do
+						input_ [type_ "checkbox", id_ i, class_ "filter-feature", value_ (T.pack ident)]
+						label_ [for_ i] $ toHtml $ fname feature
 					maybe mempty (dd_ . toHtml) $ fdescription feature
 
 -- | The list of protocols

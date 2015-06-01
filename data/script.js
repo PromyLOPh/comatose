@@ -26,6 +26,9 @@ $(document).ready (function () {
 		} else {
 			e['year'] = 0;
 		}
+		e['features'] = n.find ('.features li').map (function (i, e) {
+			return $(e).data ('id');
+		}).get ();
 
 		protocache[n.attr ('id')] = e;
 		return e;
@@ -45,26 +48,55 @@ $(document).ready (function () {
 		});
 		protolist.append (items);
 	}
-	function filterproto (search) {
+
+	function hasfeatures (item, features) {
+		var itemfeatures = item['features'];
+		for (i = 0; i < features.length; i++) {
+			if (itemfeatures.indexOf (features[i]) == -1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function filterproto (search, features = []) {
+		console.log (features);
 		search = search.toLowerCase ()
 		var items = $('#protocols .protocol');
 		for (var i = 0; i < items.length; i++) {
-			var e = $(items[i]);
-			var val = extract (e)['name'];
-			if (val.toLowerCase ().indexOf (search) >= 0) {
-				e.show ();
+			var domobj = $(items[i]);
+			var e = extract (domobj);
+			if (e['name'].toLocaleLowerCase ().indexOf (search) >= 0 &&
+					(features.length == 0 || hasfeatures (e, features))) {
+				domobj.show ();
 			} else {
-				e.hide ();
+				domobj.hide ();
 			}
 		}
 	}
+
+	function selectedfeatures () {
+		var sel = $('.filter-feature');
+		var features = [];
+		for (i = 0; i < sel.length; i++) {
+			if ($(sel[i]).is (':checked')) {
+				features.push ($(sel[i]).val ());
+			}
+		}
+		return features;
+	}
+
 	$('#sort').change (function () {
 		sortproto ($(this).val ());
 	});
 	$('#filter').keyup ($.debounce (100, function () {
-		filterproto ($(this).val ());
+		filterproto ($(this).val (), selectedfeatures ());
 	}));
+	$('.filter-feature').change (function () {
+		filterproto ($('#filter').val (), selectedfeatures ());
+	});
 	$('#protosort').show ();
+	$('.filter-feature').show ();
 	sortproto ($('#sort').val ());
-	filterproto ($('#filter').val ());
+	filterproto ($('#filter').val (), selectedfeatures ());
 });
