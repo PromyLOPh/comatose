@@ -97,7 +97,7 @@ features:
         name: Real-time
     realtime.guaranteed:
         name: Guaranteed
-        description: Latency is guaranteed or bounded.
+        description: Worst-case latency is bounded.
     realtime.probabilistic:
         name: Probabilistic
         description: >
@@ -1183,6 +1183,9 @@ algos:
         ref: [bb]
         longname: Black burst contention
         related: [maca, fama, gama, macapr, carmantg]
+        # XXX: incomplete
+        features:
+            realtime.guaranteed:
     eedfmac:
         name: EEDF-MAC
         ref: [eedfmac]
@@ -1348,10 +1351,17 @@ algos:
         name: DGRAM
         longname: Delay Guaranteed Routing and MAC Protocol
         ref: [dgram]
+        # XXX: incomplete
+        features:
+            realtime.guaranteed:
     rtmac2007:
         name: RT-MAC
-        longname: realtime MAC
+        longname: Realtime MAC
         ref: [rtmac2007]
+        # XXX: incomplete
+        features:
+            realtime.guaranteed:
+        related: [smac, wisemac, tmac, dmac, woo2001, stdma, dsmac, rtlink]
     odmac:
         name: ODMAC
         longname: On-Demand MAC
