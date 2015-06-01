@@ -294,6 +294,13 @@ page db attrib = doctypehtml_ $ do
 		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
 		extcss "style.css"
 	body_ $ do
+		nav_ [class_ "navbar navbar-default"] $ do
+			div_ [class_ "container-fluid"] $ do
+				div_ [class_ "navbar-header"] $ do
+					span_ [class_ "navbar-brand"] "comatose"
+				ul_ [class_ "nav navbar-nav"] $ do
+					li_ $ a_ [href_ "#features"] "Features"
+					li_ $ a_ [href_ "#protocols"] "Protocols"
 		div_ [class_ "container"] $ do
 			div_ [class_ "page-header"] $ do
 				h1_ "comatose"
