@@ -143,7 +143,7 @@ calcRank db =
 		stop prevalgos algos = rankdiff prevalgos algos > 0.00001
 	in db { dalgos = (iterateUntil run stop initalgos) }
 
-maybeToHtml = maybe (toHtml ("" :: String)) toHtml
+maybeToHtml = maybe mempty toHtml
 
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
 resolveDoi q = "http://doi.org/" ++ q
@@ -221,12 +221,17 @@ bibentryurl bib = safeHead $ catMaybes [doi, url]
 -- | Format bibliography/references item
 bibentry :: E.T -> Html ()
 bibentry bib = do
-	let fields = E.fields bib
-	a_ [href_ $ T.pack $ maybe "" id $ bibentryurl bib, class_ "title"] $ maybeToHtml $ lookup "title" fields
+	let
+		fields = E.fields bib
+		htmlLookup k = maybeToHtml $ lookup k fields
+	maybe
+		(span_ [class_ "title"] $ htmlLookup "title")
+		(\x -> a_ [href_ $ T.pack $ x, class_ "title"] $ htmlLookup "title")
+		(bibentryurl bib)
 	", "
-	span_ [class_ "author"] $ maybeToHtml $ lookup "author" fields
+	span_ [class_ "author"] $ htmlLookup "author"
 	", "
-	span_ [class_ "year"] $ maybeToHtml $ lookup "year" fields
+	span_ [class_ "year"] $ htmlLookup "year"
 
 -- | References section
 references :: [E.T] -> Html ()
