@@ -1471,6 +1471,7 @@ algos:
     raloha:
         name: R-Aloha
         longname: Reservation Aloha
+        ref: [raloha]
     havinga2000:
         name: Havinga’s proposal
         ref: [havinga2000]
@@ -1556,4 +1557,21 @@ algos:
         name: CARMA
         longname: Collision Avoidance and Resolution Multiple Access
         ref: [carma]
+    msaloha:
+        name: MS-Aloha
+        longname: Mobile Slotted Aloha
+        ref: [msaloha]
+        related: [rralohaplus, adhocmac, rraloha]
+    rraloha:
+        name: RR-Aloha
+        longname: Reliable R-Aloha
+        ref: [rraloha]
+        related: [fprp, raloha]
+    rralohaplus:
+        name: RR-Aloha+
+        ref: [rralohaplus]
+        related: [rraloha, adhocmac]
+    adhocmac:
+        name: ADHOC MAC
+        ref: [adhocmac]
 
