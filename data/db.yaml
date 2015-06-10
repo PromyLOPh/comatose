@@ -575,17 +575,17 @@ algos:
     pmac:
         longname: Pattern-MAC
         name: PMAC
-        related: [smac, tmac, dmac, leach]
+        related: [smac, tmac, dmac2007, leach]
         ref: [pmac]
     rmac2007b:
         longname: Routing-Enhanced MAC
         name: RMAC
         related: [smac]
         ref: [rmac2007b]
-    dmac:
+    dmac2007:
         name: DMAC
         longname: Data-Gathering MAC
-        ref: [dmac]
+        ref: [dmac2007]
         related: [smac, tmac, wisemac, pamas]
     wisemac:
         longname: Wireless Sensor MAC
@@ -646,7 +646,7 @@ algos:
         name: QoS-MAC
         # kumar2014 calls it qos-mac
         ref: [qosmac]
-        related: [fmac, pedamacs, dmac, smac, saxena2008, qmac]
+        related: [fmac, pedamacs, dmac2007, smac, saxena2008, qmac]
     pedamacs:
         name: PEDAMACS
         longname: Power Efficient and Delay Aware MAC for Sensor Networks
@@ -805,7 +805,7 @@ algos:
     bitmac:
         name: BitMAC
         ref: [bitmac]
-        related: [arisha2002, wisemac, leach, bma, dmac, trama, lmac, smac]
+        related: [arisha2002, wisemac, leach, bma, dmac2007, trama, lmac, smac]
     bma:
         longname: Bit-map assisted MAC
         name: BMA
@@ -1217,7 +1217,7 @@ algos:
         name: asTEA-MAC
         longname: throughput and energy-aware medium-access-control protocol with adjustable sleeps
         ref: [asteamac]
-        related: [smacs, smac, tmac, demac, wisemac, dmac, pmac, teamac]
+        related: [smacs, smac, tmac, demac, wisemac, dmac2007, pmac, teamac]
     csmap:
         name: CSMA/p*
         longname: nonpersistent CSMA
@@ -1246,7 +1246,7 @@ algos:
         name: SPARE MAC
         longname: Slot Periodic Assignment for Reception
         ref: [sparemac]
-        related: [smac, pamas, dmac, trama, nama, tdmaw]
+        related: [smac, pamas, dmac2007, trama, nama, tdmaw]
     tdmaw:
         name: TDMA-W
         ref: [tdmaw]
@@ -1361,7 +1361,7 @@ algos:
         # XXX: incomplete
         features:
             realtime.guaranteed:
-        related: [smac, wisemac, tmac, dmac, woo2001, stdma, dsmac, rtlink]
+        related: [smac, wisemac, tmac, dmac2007, woo2001, stdma, dsmac, rtlink]
     odmac:
         name: ODMAC
         longname: On-Demand MAC
@@ -1574,4 +1574,30 @@ algos:
     adhocmac:
         name: ADHOC MAC
         ref: [adhocmac]
+    mraloha:
+        name: M-R-Aloha
+        longname: Modified R-Aloha
+        ref: [mraloha]
+    marraloha:
+        name: MARR-Aloha
+        longname: Mobility Adaptive RR-Aloha
+        ref: [marraloha]
+    evemac:
+        name: e-VeMAC
+        longname: Enhanced Vehicular MAC
+        ref: [evemac]
+    isomac:
+        name: IsoMAC
+        longname: Isochronous MAC
+        ref: [isomac]
+        related: [ftdma, hcca]
+    ftdma:
+        name: FTDMA
+        longname: Flexible TDMA
+        ref: [ftdma]
+        related: [dmac1997, dqruma, dsapp]
+    dmac1997:
+        name: DMAC
+        longname: Distributed MAC
+        ref: [dmac1997]
 
