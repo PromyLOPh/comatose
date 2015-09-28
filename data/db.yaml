@@ -18,7 +18,7 @@ features:
         name: Polling
         description: >
             Base or master station polls slaves, granting them acces to the
-            medium.
+            medium. This is also called receiver-initiated (RI) access.
     access.reservation:
         name: Dynamic reservation
         description: >
@@ -400,6 +400,7 @@ algos:
         longname: Dynamic Slot Assignment++
         name: DSA++
         ref: [dsapp]
+        related: [dsa]
     cata:
         longname: Collision Avoidance Time Allocation
         name: CATA
@@ -685,6 +686,7 @@ algos:
             initiation.sender:
             time.discrete:
             realtime.probabilistic:
+        related: []
     hymac:
         name: HyMAC
         ref: [hymac]
@@ -699,6 +701,8 @@ algos:
             access.reservation:
             access.random:
             topology.multihop:
+        related: [bmac, rtlink, mmsn, smac, tmac, lmac2004, trama, woo2001,
+                wisemac, mcsma, sm, edf, hrma, chma]
     bmac:
         longname: Berkeley MAC
         name: B-MAC
@@ -720,6 +724,12 @@ algos:
     alert:
         name: Alert
         ref: [alert]
+        features:
+            access.random:
+            time.discrete:
+            channels.multi:
+            reliability.retransmission:
+            radio.carriersense:
     sift:
         name: Sift
         ref: [sift]
@@ -1537,6 +1547,7 @@ algos:
         name: SM
         longname: Simple Multichannel MMAC
         ref: [sm]
+        related: [macaw, dbtma, fama, maca, macapr, mcsma, hrma, wu2000]
     dca:
         name: DCA
         longname: Dynamic Channel Assignment
@@ -1574,6 +1585,7 @@ algos:
     adhocmac:
         name: ADHOC MAC
         ref: [adhocmac]
+        related: [rraloha, dbtma, raloha]
     mraloha:
         name: M-R-Aloha
         longname: Modified R-Aloha
@@ -1600,4 +1612,15 @@ algos:
         name: DMAC
         longname: Distributed MAC
         ref: [dmac1997]
+        related: [ratmmac, dqruma, watmmac, dsapp]
+    wu2000:
+        name: Wu’s proposal
+        ref: [wu2000]
+    dsa:
+        longname: Dynamic Slot Assignment
+        name: DSA
+        ref: [dsa]
+    watmmac:
+        name: WATM MAC
+        ref: [watmmac]
 
