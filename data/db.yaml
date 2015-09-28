@@ -48,7 +48,7 @@ features:
     # bluetooth for example?
     topology.clustered: 
         name: Clustered
-        description:
+        description: ""
     topology.centralized:
         name: Centralized
         description: Star
@@ -89,7 +89,7 @@ features:
         description: Packets will be acked/nacked and retransmitted
     reliability.channel-hopping:
         name: Channel hopping
-        description:
+        description: ""
     reliability.ecc:
         name: Error correcting codes
 
