@@ -755,6 +755,7 @@ algos:
         features:
             realtime.guaranteed:
             application.wsn:
+            topology.multihop:
         related: [speed, rap, edf]
     vts:
         longname: Virtual TDMA for Sensors
@@ -1623,4 +1624,8 @@ algos:
     watmmac:
         name: WATM MAC
         ref: [watmmac]
+    lmac2009:
+        name: LMAC
+        longname: Latency MAC
+        ref: [lmac2009]
 
