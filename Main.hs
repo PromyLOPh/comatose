@@ -271,6 +271,7 @@ features db =
 				dl_ $ forM_ (M.toList $ getFeaturesByBase db baseident) $ \(ident, feature) -> do
 					dt_ [class_ "form-inline"] $ let i = T.pack ("filter-feature-" ++ ident) in do
 						input_ [type_ "checkbox", id_ i, class_ "filter-feature", value_ (T.pack ident)]
+						" "
 						label_ [for_ i] $ toHtml $ fname feature
 					maybe mempty (dd_ . toHtml) $ fdescription feature
 
