@@ -146,6 +146,7 @@ calcRank db =
 maybeToHtml = maybe mempty toHtml
 
 scholarSearch q = "http://scholar.google.com/scholar?q=" ++ escapeURIString isReserved q
+resolveDoi :: String -> String
 resolveDoi q = "http://doi.org/" ++ q
 
 -- |List of protocol features
