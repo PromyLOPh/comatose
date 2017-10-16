@@ -20,6 +20,6 @@ executable comatose
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.6 && <4.10, bibtex, yaml, containers, parsec, lucid, bytestring, text, filepath, network-uri, aeson, directory
-  -- hs-source-dirs:      
+  hs-source-dirs:      src
   default-language:    Haskell2010
 
