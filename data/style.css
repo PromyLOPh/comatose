@@ -1,5 +1,9 @@
+/* for floating navbar */
+body {
+	padding-top: 3.5rem;
+}
+
 #protosort {
-	text-align: right;
 	display: hidden;
 }
 
@@ -15,17 +19,6 @@
 	content: ":";
 }
 
-.protocol .related ul {
-	list-style-type: none;
-	margin: 0;
-	padding 0;
-}
-.protocol .related li {
-	display: inline;
-	margin: 0;
-	margin-right: 1em;
-	padding 0;
-}
 .filter-feature {
 	display: hidden;
 }

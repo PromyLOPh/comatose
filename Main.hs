@@ -154,7 +154,7 @@ protofeatures :: Database -> Protocol -> Html ()
 protofeatures _ p | (M.size $ pfeatures p) == 0 = mempty
 protofeatures db p = do
 	dt_ "Features"
-	dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ [data_ "id" (T.pack x)] $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+	dd_ $ ul_ [class_ "features list-inline"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ [data_ "id" (T.pack x), class_ "list-inline-item"] $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
 
 -- |List of protocol publications
 protopapers :: [T] -> Html ()
@@ -168,9 +168,7 @@ protopapers pubs = do
 -- |Protocol description
 protodesc :: Protocol -> Html ()
 protodesc Protocol { pdescription = Nothing } = mempty
-protodesc Protocol { pdescription = Just desc } = do
-	dt_ "Description"
-	dd_ $ p_ $ toHtml desc
+protodesc Protocol { pdescription = Just desc } = p_ $ toHtml desc
 
 protorelated :: Database -> Protocol -> Html ()
 protorelated _ p | null $ prelated p = mempty
@@ -181,8 +179,8 @@ protorelated db p =
 		rel = catMaybes $ map lookup $ prelated p
 	in do
 		dt_ "Related"
-		dd_ [class_ "related"] $ ul_ $ forM_ rel $
-			\(ident, x) -> li_ $ a_ [href_ (T.pack $ '#':ident)] $ toHtml $ pname x
+		dd_ [class_ "related"] $ ul_ [class_ "list-inline"] $ forM_ rel $
+			\(ident, x) -> li_ [class_ "list-inline-item"] $ a_ [href_ (T.pack $ '#':ident)] $ toHtml $ pname x
 
 -- |One protocol
 protoentry :: Database -> (String, Protocol) -> Html ()
@@ -201,9 +199,9 @@ protoentry db (ident, p) =
 				a_ [href_ (T.pack $ '#':ident), title_ "permalink"] $ toHtml $ pname p
 				" "
 				maybe "" (small_ [class_ "longname"] . toHtml) $ plongname p
+			protodesc p
 			dl_ $ do
 				protopapers pubs
-				protodesc p
 				protofeatures db p
 				protorelated db p
 
@@ -248,7 +246,8 @@ introduction db =
 		pubyears = catMaybes $ map (lookup "year" . E.fields) $ dpublications db
 		firstyear = foldr min (head pubyears) (tail pubyears)
 		lastyear = foldr max (head pubyears) (tail pubyears)
-	in section_ $ do
+	in section_ [class_ "container"] $ do
+		h1_ [class_ "display-3"] "comatose"
 		p_ $ do
 			"The comprehensive MAC taxonomy database (comatose) is a collection of "
 			toHtml $ show algocount
@@ -279,17 +278,6 @@ features db =
 protocols :: Database -> Html ()
 protocols db = section_ [id_ "protocols"] $ do
 	h2_ "Protocols"
-	div_ [id_ "protosort", class_ "form-inline"] $ do
-		label_ [for_ "filter"] "Filter"
-		" "
-		input_ [id_ "filter", type_ "search", class_ "form-control"]
-		" "
-		label_ [for_ "sort"] "Sort by"
-		" "
-		select_ [id_ "sort", class_ "form-control"] $ do
-			option_ [value_ "name"] "Name"
-			option_ [value_ "year"] "Year"
-			option_ [value_ "rank"] "Rank"
 	forM_ (M.toList $ dalgos db) (protoentry db)
 
 -- |Page template
@@ -297,23 +285,29 @@ page db attrib = doctypehtml_ $ do
 	head_ $ do
 		title_ "comatose"
 		meta_ [charset_ "utf-8"]
-		extjs "https://code.jquery.com/jquery-1.11.2.min.js"
-		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
-		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
-		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+		meta_ [name_ "viewport", content_ "width=device-width, initial-scale=1, shrink-to-fit=no"]
+		extjs "https://code.jquery.com/jquery-3.2.1.min.js"
+		extcss "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+		extjs "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 		extcss "style.css"
 	body_ $ do
-		nav_ [class_ "navbar navbar-default"] $ do
-			div_ [class_ "container-fluid"] $ do
-				div_ [class_ "navbar-header"] $ do
-					span_ [class_ "navbar-brand"] "comatose"
-				ul_ [class_ "nav navbar-nav"] $ do
-					li_ $ a_ [href_ "#features"] "Features"
-					li_ $ a_ [href_ "#protocols"] "Protocols"
+		nav_ [class_ "navbar navbar-expand-md navbar-dark bg-dark fixed-top"] $ do
+			div_ [class_ "collapse navbar-collapse"] $ do
+				span_ [class_ "navbar-brand"] "comatose"
+				ul_ [class_ "navbar-nav mr-auto"] $ do
+					li_ [class_ "nav-item" ] $ a_ [class_ "nav-link", href_ "#features"] "Features"
+					li_ [class_ "nav-item" ] $ a_ [class_ "nav-link", href_ "#protocols"] "Protocols"
+				form_ [id_ "protosort", class_ "form-inline my-2 my-lg-0"] $ do
+					input_ [id_ "filter", type_ "search", class_ "form-control mr-sm-2", placeholder_ "Filter by name"]
+					" "
+					label_ [for_ "sort"] "Sort by"
+					" "
+					select_ [id_ "sort", class_ "form-control"] $ do
+						option_ [value_ "name"] "Name"
+						option_ [value_ "year"] "Year"
+						option_ [value_ "rank"] "Rank"
+		div_ [class_ "jumbotron" ] $ introduction db
 		div_ [class_ "container"] $ do
-			div_ [class_ "page-header"] $ do
-				h1_ "comatose"
-			introduction db
 			features db
 			protocols db
 			references (sortBy (compare `on` lookup "year" . E.fields) attrib)
