@@ -116,4 +116,7 @@ $(document).ready (function () {
 	/* hide button “learn more” */
 	$('#about').on ({'shown.bs.collapse': function () { $('#learnmore').hide (); },
 			'hidden.bs.collapse': function () { $('#learnmore').show (); }});
+
+	/* enable popovers */
+	$('[data-toggle="popover"]').popover({template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><textarea readonly rows="5" class="popover-body"></textarea></div>'});
 });

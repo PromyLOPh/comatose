@@ -10,6 +10,7 @@ import Data.Maybe (catMaybes)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeUtf8)
 import Text.BibTeX.Entry as E
+import Text.BibTeX.Format (entry)
 import qualified Data.Map as M
 import Text.Parsec.Error
 import Text.ParserCombinators.Parsec.Prim
@@ -114,6 +115,8 @@ bibentry bib = do
     span_ [class_ "author"] $ htmlLookup "author"
     ", "
     span_ [class_ "year"] $ htmlLookup "year"
+    " "
+    button_ [type_ "button", class_ "btn btn-light btn-sm", data_ "toggle" "popover", title_ "BibTeX", data_ "content" $ T.pack $ entry bib] "BibTeX"
 
 -- | References section
 references :: [E.T] -> Html ()
