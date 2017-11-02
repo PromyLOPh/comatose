@@ -43,6 +43,9 @@ $(document).ready (function () {
 			if (by == 'rank' || by == 'year') {
 				return a > b ? 1 : (a < b ? -1 : 0);
 			} else {
+				/* ignore non-letter chars */
+				a = a.replace (/\W+/, '');
+				b = b.replace (/\W+/, '');
 				return a.localeCompare (b);
 			}
 		});
