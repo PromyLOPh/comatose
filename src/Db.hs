@@ -96,6 +96,13 @@ getFeaturesByBase db base = M.filterWithKey (\k v -> (base ++ ".") `isPrefixOf` 
 -- |Get number of algorithms in database
 algorithmCount db = M.size $ dalgos db
 
+split :: (Eq a) => a -> [a] -> [[a]]
+split delim s = let (a, b:bs) = span (/= delim) s in a:split delim bs
+
+-- |Get base of feature
+getFeatureBase :: String -> String
+getFeatureBase feature = head $ split '.' feature
+
 minMaxPublicationYears db = (firstyear, lastyear)
     where
         pubyears = catMaybes $ map (lookup "year" . E.fields) $ dpublications db

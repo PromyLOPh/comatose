@@ -33,8 +33,15 @@ resolveDoi q = "http://doi.org/" ++ q
 protofeatures :: Database -> Protocol -> Html ()
 protofeatures _ p | (M.size $ pfeatures p) == 0 = mempty
 protofeatures db p = do
-    dt_ "Features"
-    dd_ $ ul_ [class_ "features list-inline"] $ forM_ (sort $ M.keys $ pfeatures p) (\x -> li_ [data_ "id" (T.pack x), class_ "list-inline-item"] $ toHtml $ maybe ("" :: String) fname $ M.lookup x (dfeatures db))
+        dt_ "Features"
+        dd_ $ ul_ [class_ "features"] $ forM_ (sort $ M.keys $ pfeatures p) item
+    where
+        item :: String -> Html ()
+        item name = li_ [data_ "id" (T.pack name)] $ do
+            toHtml $ maybeLookup $ getFeatureBase name
+            ": "
+            toHtml $ maybeLookup name
+        maybeLookup name = maybe ("" :: String) fname $ M.lookup name (dfeatures db)
 
 -- |List of protocol publications
 protopapers :: [T] -> Html ()
