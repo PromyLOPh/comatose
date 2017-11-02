@@ -7,7 +7,9 @@
 features:
     access:
         name: Channel access
-        description: Basic method for channel access
+        description: >
+            Basic method for channel access, that is how sender and/or receiver
+            decide who is allowed to access the medium.
     access.random:
         name: Random
         description: >
@@ -41,17 +43,17 @@ features:
         name: Single-Hop
         description: >
             MAC relies on upper layers to transmit packet to out-of-range
-            stations
+            stations.
     topology.multihop:
         name: Multi-Hop
-        description: MAC transports data through multiple hops
+        description: MAC transports data through multiple hops.
     # bluetooth for example?
     topology.clustered: 
         name: Clustered
         description: ""
     topology.centralized:
         name: Centralized
-        description: Star
+        description: Star topology with a single, central gateway.
 
     application:
         name: Applications
@@ -70,9 +72,10 @@ features:
         name: Time model
     time.discrete:
         name: Discrete
-        description: Discrete and synchronized
+        description: Discrete time, which usually requires some form of time synchronization.
     time.continuous:
         name: Continuous
+        description: Continuous time without synchronization.
 
     power:
         name: Powersave mechanisms
@@ -83,15 +86,17 @@ features:
 
     reliability:
         name: Reliability
+        description: Mechanisms employed that increase transmission reliability.
     # unreliable is default
     reliability.retransmission:
         name: Retransmission
-        description: Packets will be acked/nacked and retransmitted
+        description: Packets will be acked/nacked by the receiver and retransmitted in case of an error.
     reliability.channel-hopping:
         name: Channel hopping
-        description: ""
+        description: Radio channels are switched frequently in pseudorandom fashion, avoiding collisions and jamming.
     reliability.ecc:
         name: Error correcting codes
+        description: Telegrams contain redundant information allowing recovery of (some) corrupted bits.
 
     realtime:
         name: Real-time
@@ -108,8 +113,10 @@ features:
         name: Channel usage
     channels.single:
         name: Single
+        description: Only a single radio channel is used.
     channels.multi:
         name: Multi
+        description: Multiple radio channels are used.
 
     routing:
         name: Routing
@@ -140,7 +147,7 @@ features:
         name: Ad-hoc
         description: >
             Supports joining and leaving of stations in an ad-hoc fashion.
-            Stations move around.
+            Stations may move around.
 
     # XXX figure out where to put these
     other:
@@ -824,8 +831,8 @@ algos:
         related: [leach, pact, smacs, psaloha, csma, smac]
     bpmac:
         name: BP-MAC
-        # no ref available?
-        # paper at: http://www.ejse.org/Archives/Fulltext/2009/Special/2009SP4.pdf
+        longname: Backoff Preamble MAC
+        ref: [bpmac]
     bpsmac:
         longname: Backoff Preamble Sequential MAC
         name: BPS-MAC
@@ -1334,10 +1341,6 @@ algos:
     breath:
         name: Breath
         ref: [breath]
-    rlmac:
-        name: RL-MAC
-        longname: Reinforced learning MAC
-        ref: [rlmac]
     pqmac:
         name: PQMAC
         longname: priority-based quality-of-service MAC
