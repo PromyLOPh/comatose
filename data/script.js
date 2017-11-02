@@ -17,7 +17,7 @@ $(document).ready (function () {
 			return e;
 		}
 		e = {
-			'name': n.children ('.name').first ().text (),
+			'name': n.find ('.name').first ().text (),
 			'rank': parseFloat (n.data ('rank')),
 			}
 		var year = n.find ('dl dd.ref * .year').first ();
@@ -76,7 +76,7 @@ $(document).ready (function () {
 	}
 
 	function selectedfeatures () {
-		var sel = $('.filter-feature');
+		var sel = $('#filter-feature option');
 		var features = [];
 		for (i = 0; i < sel.length; i++) {
 			if ($(sel[i]).is (':checked')) {
@@ -92,11 +92,28 @@ $(document).ready (function () {
 	$('#filter').keyup ($.debounce (100, function () {
 		filterproto ($(this).val (), selectedfeatures ());
 	}));
-	$('.filter-feature').change (function () {
+	$('#filter-feature').change (function () {
 		filterproto ($('#filter').val (), selectedfeatures ());
 	});
 	$('#protosort').show ();
-	$('.filter-feature').show ();
+	$('#filter-feature').show ();
 	sortproto ($('#sort').val ());
 	filterproto ($('#filter').val (), selectedfeatures ());
+
+	/* see https://stackoverflow.com/a/38691517 */
+	$('.keep-open').on({
+		"shown.bs.dropdown": function() { $(this).attr('closable', false); },
+		//"click":             function() { }, // For some reason a click() is sent when Bootstrap tries and fails hide.bs.dropdown
+		"hide.bs.dropdown":  function() { return $(this).attr('closable') == 'true'; }
+	});
+
+	$('.keep-open').children().first().on({
+	  "click": function() {
+		$(this).parent().attr('closable', true );
+	  }
+	})
+
+	/* hide button “learn more” */
+	$('#about').on ({'shown.bs.collapse': function () { $('#learnmore').hide (); },
+			'hidden.bs.collapse': function () { $('#learnmore').show (); }});
 });

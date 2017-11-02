@@ -4,6 +4,7 @@ module Db where
 import System.FilePath ((<.>), splitExtension)
 import Data.List (nub, sort, sortBy, isPrefixOf)
 import Control.Monad
+import Data.Maybe (catMaybes)
 import Data.Yaml
 import Text.Parsec.Error
 import Text.ParserCombinators.Parsec.Prim
@@ -91,6 +92,15 @@ getFeaturesByLevel db level = M.filterWithKey (\k v -> countDots k == level) $ d
 
 -- |Get features by `base` feature
 getFeaturesByBase db base = M.filterWithKey (\k v -> (base ++ ".") `isPrefixOf` k) $ dfeatures db
+
+-- |Get number of algorithms in database
+algorithmCount db = M.size $ dalgos db
+
+minMaxPublicationYears db = (firstyear, lastyear)
+    where
+        pubyears = catMaybes $ map (lookup "year" . E.fields) $ dpublications db
+        firstyear = foldr min (head pubyears) (tail pubyears)
+        lastyear = foldr max (head pubyears) (tail pubyears)
 
 -- |Read protocol and bib database from file
 readDb :: String -> IO Database
