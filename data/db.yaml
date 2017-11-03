@@ -65,8 +65,10 @@ features:
         name: Vehicular mobile ad hoc network
     application.console:
         name: Serial console
-    application.iwsan:
-        name: Industrial wireless sensor actuator network
+    application.industrial:
+        name: Industrial
+    application.underwater:
+        name: Underwater
 
     time:
         name: Time model
@@ -682,7 +684,8 @@ algos:
         name: PriorityMAC
         ref: [priomac]
         features:
-            application.iwsan:
+            application.industrial:
+            application.wsn:
             # access to the medium is contended for AM1/2, with exponential
             # backoff
             access.random:
@@ -1631,4 +1634,171 @@ algos:
         name: LMAC
         longname: Latency MAC
         ref: [lmac2009]
+    fdcmac2015a:
+        name: FDC-MAC
+        longname: Full-Duplex Cognitive Medium Access Control
+        ref: [fdcmac2015a]
+    dsp:
+        name: DSP
+        longname: Dynamic Switching Protocol
+        ref: [dsp]
+    hehbmac:
+        name: HEH-BMAC
+        longname: Human Energy Harvesting Medium Access Control
+        ref: [hehbmac]
+    camac2015:
+        name: CA MAC
+        longname: Connectivity-Aware MAC
+        ref: [camac2015]
+        features:
+            application.vanet:
+    delcmac:
+        name: DEL-CMAC
+        longname: Distributed Energy-Adaptive Location-Based Cooperative MAC
+        ref: [delcmac]
+    cehmac:
+        name: CEH-MAC
+        longname: Cooperative Energy Harvesting MAC
+        ref: [cehmac]
+    dfdmac:
+        name: Distributed FD-MAC
+        longname: Distributed Full-Duplex MAC
+        ref: [dfdmac]
+    lodmac:
+        name: LODMAC
+        longname: Location Oriented Directional MAC
+        ref: [lodmac]
+    imac:
+        name: I-MAC
+        longname: Interrupt MAC
+        ref: [imac]
+    rcmac:
+        name: RC-MAC
+        longname: Receiver-centric MAC
+        ref: [rcmac]
+    bsmac:
+        name: BS-MAC
+        longname: Bitmap-assisted Shortest Job First MAC
+        ref: [bsmac]
+    rrscmac:
+        name: RRS-CMAC
+        longname: Rapid Relay Selection Cooperative MAC
+        ref: [rrscmac]
+    qsps:
+        name: QS-PS
+        longname: Quasi-Sleep-Preempt-Supported
+        ref: [qsps]
+    pamac:
+        name: PA-MAC
+        longname: Priority-based Adaptive MAC
+        ref: [pamac]
+    bestmac:
+        name: BEST-MAC
+        longname: Bitmap-assisted Efficient and Scalable TDMA-based MAC
+        ref: [bestmac]
+    upcmac:
+        name: UPC-MAC
+        longname: Underwater Power Control MAC
+        ref: [upcmac]
+        features:
+            application.wsn:
+            application.underwater:
+    hmmac:
+        name: H-MMAC
+        longname: Hybrid and Adaptive Multi-Channel MAC
+        ref: [hmmac]
+        features:
+            channels.multi:
+    kim2015:
+        name: Kim’s proposal
+        ref: [kim2015]
+    sywim:
+        name: SyWiM
+        longname: Synchronized Wake-up Interval MAC
+        ref: [sywim]
+    smcmac:
+        name: SMC-MAC
+        longname: Self-Scheduled Multichannel Cognitive Radio MAC
+        ref: [smcmac]
+    echoring:
+        name: EchoRing
+        ref: [echoring]
+        features:
+            access.token-passing:
+            application.industrial:
+    fdcmac2015b:
+        name: FDC-MAC
+        longname: Full Duplex Cognitive MAC
+        ref: [fdcmac2015b]
+    lcsma:
+        name: L-CSMA
+        longname: Linear CSMA
+        ref: [lcsma]
+    cfmac:
+        name: CF-MAC
+        longname: Collision-Free MAC
+        ref: [cfmac]
+    cmac2015:
+        name: C-MAC
+        longname: Coordinated Multichannel MAC
+        ref: [cmac2015]
+    adamac:
+        name: Ada-MAC
+        longname: Adaptive MAC
+        ref: [adamac]
+    sdmac:
+        name: SD-MAC
+        longname: Spectrum Database-Driven MAC
+        ref: [sdmac]
+    iqueuemac:
+        name: iQueue-MAC
+        ref: [iqueuemac]
+    mmacda:
+        name: MMAC-DA
+        longname: Multi-channel MAC with Directional Antennas
+        ref: [mmacda]
+    tars:
+        name: TARS
+        longname: Traffic-Adaptive Receiver-Synchronized underwater MAC
+        ref: [tars]
+        features:
+            application.underwater:
+            application.wsn:
+    dact:
+        name: DACT
+        longname: Data Aided Cognitive Technique
+        ref: [dact]
+        features:
+            application.industrial:
+    csmaeca:
+        name: CSMA/ECA
+        longname: Carrier Sense Multiple Access with Enhanced Collision Avoidance
+        ref: [csmaeca]
+    dcdmac:
+        name: DCD-MAC
+        ref: [dcdmac]
+    lach:
+        name: LACH
+        longname: Load-aware Channel Hopping MAC
+        ref: [lach]
+    ddcmac:
+        name: DDC-MAC
+        longname: Dynamic Cooperative MAC
+        ref: [ddcmac]
+    omac2017:
+        name: O-MAC
+        longname: Opportunistic MAC
+        ref: [omac2017]
+    eecomac:
+        name: EECO-MAC
+        longname: Energy-Efficient Cooperative MAC
+        ref: [eecomac]
+    prin:
+        name: PRIN
+        longname: Priority in Node
+        ref: [prin]
+    ahmac:
+        name: AH-MAC
+        longname: Adaptive Hierarchical MAC
+        ref: [ahmac]
 
