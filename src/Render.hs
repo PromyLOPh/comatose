@@ -145,7 +145,7 @@ introduction db = let
             " and "
             toHtml lastyear
             "."
-        p_ [class_ "lead"] $ a_ [class_ "btn btn-primary btn-lg", href_ "#about", role_ "button", data_ "toggle" "modal", id_ "learnmore"] "Learn more"
+        p_ [class_ "lead"] $ a_ [class_ "btn btn-primary btn-lg", href_ "#about", role_ "button"] "Learn more"
 
 featuresFilter :: Database -> Html ()
 featuresFilter db = select_ [multiple_ "", id_ "filter-feature", class_ "form-control", placeholder_ "Filter by feature or name"] $ forM_ (M.toList $ getFeaturesByLevel db 0) $ \(baseident, basefeature) -> do
@@ -168,40 +168,35 @@ about db attrib = let
         (firstyear, lastyear) = minMaxPublicationYears db
         categoryCount = M.size $ getFeaturesByLevel db 0
     in do
-    div_ [class_ "modal fade", id_ "about"]
-        $ div_ [class_ "modal-dialog"]
-        $ div_ [class_ "modal-content"] $ do
-            div_ [class_ "modal-header"] $ do
-                h2_ [class_ "modal-title"] "About"
-                button_ [type_ "button", class_ "close", data_ "dismiss" "modal"] "×"
-            div_ [class_ "modal-body"] $ do
-                p_ "In recent years the scientific community has proposed a surprisingly large number of wireless medium access (MAC) protocols. That number is still climbing year by year, rendering classic surveys outdated rather quick. Additionally the sheer number of protocols results in name collisions, often making it harder than necessary to identify which protocol exactly is referenced by just looking at its name. Ordinary surveys also cannot provide interactivity like feature-based filtering and searching. Its results are not reusable easily since they are not machine-readable."
-                p_ $ do
-                    "This comprehensive MAC taxonomy database (comatose), aims to fix most of these problems. It lists most known scientific MAC protocol proposals and is not limited to a subset with specific properties. The list includes the protocol’s short and long name, a description, as well as references to the publication it originated from. It also introduces a taxonomy. Some of its terminology is based on or inspired by "
-                    a_ [href_ "#references"] "existing surveys"
-                    ". Features are grouped into "
-                    toHtml $ show categoryCount
-                    " categories and those within the same category can be mutually exclusive. Below is a list of all features in use."
-                features db
-                h2_ "Implementation"
-                p_ $ do
-                    "comatose uses two databases. The first one contains features and protocols in a "
-                    a_ [href_ "http://yaml.org/"] "YAML"
-                    " file. It is human and machine-readable at the same time and thus easy to edit. Also it does not require additional software like a SQL database server. This first database links protocols to publications with a second database. That one is just a standard BibTeX file. Since TeX is used for a lot of scientific publications these records usually exist already and can be copied, as well as reused for new publications. Therefore both should databases provide value beyond the scope of this project."
-                p_ "This very page is generated with a HTML renderer written in Haskell. It reads both databases and transforms them into a single-page HTML document.  Additional JavaScript code provides client-side filtering and searching."
-                h2_ "Contributing"
-                p_ $ do
-                    "As mentioned above this database is not complete yet and will never be, as long as new protocols are invented. Descriptions and feature tags are missing for a lot of protocols due to lack of time. If you want to help send an email with your suggestions to "
-                    a_ [href_ "mailto:lars+comatose@6xq.net"] "lars+comatose@6xq.net"
-                    " or clone the repository from "
-                    a_ [href_ "https://github.com/PromyLOPh/comatose"] "GitHub"
-                    ", edit the database and create a pull request."
-                h2_ "Acknowledgements"
-                p_ $ do
-                    "This database is part of a project funded by the "
-                    a_ [href_ "https://www.bmbf.de/en/index.html"] "Federal Ministry of Education and Research"
-                    " from 2015 to 2017."
-                references (sortBy (compare `on` lookup "year" . E.fields) attrib)
+    div_ [id_ "about"] $ do
+        h2_ "About"
+        p_ "In recent years the scientific community has proposed a surprisingly large number of wireless medium access (MAC) protocols. That number is still climbing year by year, rendering classic surveys outdated rather quick. Additionally the sheer number of protocols results in name collisions, often making it harder than necessary to identify which protocol exactly is referenced by just looking at its name. Ordinary surveys also cannot provide interactivity like feature-based filtering and searching. Its results are not reusable easily since they are not machine-readable."
+        p_ $ do
+            "This comprehensive MAC taxonomy database (comatose), aims to fix most of these problems. It lists most known scientific MAC protocol proposals and is not limited to a subset with specific properties. The list includes the protocol’s short and long name, a description, as well as references to the publication it originated from. It also introduces a taxonomy. Some of its terminology is based on or inspired by "
+            a_ [href_ "#references"] "existing surveys"
+            ". Features are grouped into "
+            toHtml $ show categoryCount
+            " categories and those within the same category can be mutually exclusive. Below is a list of all features in use."
+        features db
+        h3_ "Implementation"
+        p_ $ do
+            "comatose uses two databases. The first one contains features and protocols in a "
+            a_ [href_ "http://yaml.org/"] "YAML"
+            " file. It is human and machine-readable at the same time and thus easy to edit. Also it does not require additional software like a SQL database server. This first database links protocols to publications with a second database. That one is just a standard BibTeX file. Since TeX is used for a lot of scientific publications these records usually exist already and can be copied, as well as reused for new publications. Therefore both should databases provide value beyond the scope of this project."
+        p_ "This very page is generated with a HTML renderer written in Haskell. It reads both databases and transforms them into a single-page HTML document.  Additional JavaScript code provides client-side filtering and searching."
+        h3_ "Contributing"
+        p_ $ do
+            "As mentioned above this database is not complete yet and will never be, as long as new protocols are invented. Descriptions and feature tags are missing for a lot of protocols due to lack of time. If you want to help send an email with your suggestions to "
+            a_ [href_ "mailto:lars+comatose@6xq.net"] "lars+comatose@6xq.net"
+            " or clone the repository from "
+            a_ [href_ "https://github.com/PromyLOPh/comatose"] "GitHub"
+            ", edit the database and create a pull request."
+        h3_ "Acknowledgements"
+        p_ $ do
+            "This database is part of a project funded by the "
+            a_ [href_ "https://www.bmbf.de/en/index.html"] "Federal Ministry of Education and Research"
+            " from 2015 to 2017."
+        references (sortBy (compare `on` lookup "year" . E.fields) attrib)
     
 -- | The list of protocols
 protocols :: Database -> Html ()
@@ -236,8 +231,10 @@ page db attrib = doctypehtml_ $ do
                         option_ [value_ "rank"] "Rank"
         div_ [class_ "jumbotron" ] $ section_ [class_ "container"] $ do
             introduction db
-            about db attrib
         div_ [class_ "container"] $ protocols db
+        div_ [class_ "container"] $ do
+            hr_ []
+            about db attrib
         extjs "script.js"
 
 -- |Render page
