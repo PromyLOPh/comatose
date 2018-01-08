@@ -895,6 +895,15 @@ algos:
         name: f-MAC
         ref: [fmac]
         related: [smac, tmac, mumac, trama, bitmac, csmamps]
+        features:
+            access.random:
+            topology.singlehop:
+            time.continuous:
+            realtime.guaranteed:
+            routing.broadcast:
+            initiation.sender:
+            deployment.static:
+            other.qos:
     flama:
         name: FLAMA
         longname: Flow-aware Medium Access
