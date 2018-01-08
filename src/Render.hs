@@ -208,13 +208,19 @@ page db attrib = doctypehtml_ $ do
         title_ "comatose"
         meta_ [charset_ "utf-8"]
         meta_ [name_ "viewport", content_ "width=device-width, initial-scale=1, shrink-to-fit=no"]
-        extjs "https://code.jquery.com/jquery-3.2.1.min.js"
-        extjs "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-        extjs "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-        extcss "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-        extjs "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js"
-        extcss "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.min.css"
-        extcss "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.min.css"
+        -- external libraries
+        let
+            bootstrapVersion = "4.0.0-beta.3"
+            popperVersion = "1.12.9"
+            selectizeVersion = "0.12.4"
+            jqueryVersion = "3.2.1"
+        extjs $ T.concat ["https://code.jquery.com/jquery-", jqueryVersion, ".min.js"]
+        extjs $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/popper.js/", popperVersion, "/umd/popper.min.js"]
+        extjs $ T.concat ["https://maxcdn.bootstrapcdn.com/bootstrap/", bootstrapVersion, "/js/bootstrap.min.js"]
+        extcss $ T.concat ["https://maxcdn.bootstrapcdn.com/bootstrap/", bootstrapVersion, "/css/bootstrap.min.css"]
+        extjs $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/js/standalone/selectize.min.js"]
+        extcss $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/css/selectize.min.css"]
+        extcss $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/css/selectize.bootstrap3.min.css"]
         extcss "style.css"
     body_ $ do
         nav_ [class_ "navbar navbar-expand-md navbar-dark bg-dark fixed-top"] $ do
