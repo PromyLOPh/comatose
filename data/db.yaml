@@ -16,6 +16,9 @@ features:
             Stations access the medium in a random, uncoordinated fashion.
     access.token-passing:
         name: Token-passing
+        description: >
+            Permission to speak is granted by the node who previously held it
+            (the “token”) with no fixed master involved.
     access.polling:
         name: Polling
         description: >
