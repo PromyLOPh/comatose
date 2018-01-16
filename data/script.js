@@ -98,5 +98,14 @@ $(document).ready (function () {
 	$('[data-toggle="popover"]').popover({template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><textarea readonly rows="5" class="popover-body"></textarea></div>'});
 
 	$('select').selectize({create: true});
+
+	var plt = Bokeh.Plotting;
+
+	var p3 = Bokeh.Charts.bar (yearHistData, {
+		axis_number_format: "0.[00]a",
+		orientation: "vertical"
+	});
+
+	plt.show (p3, document.getElementById ('pubHistogram'));
 });
 

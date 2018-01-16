@@ -9,6 +9,7 @@ import Data.Function (on)
 import Data.Maybe (catMaybes)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeUtf8)
+import Data.Aeson (encode)
 import Text.BibTeX.Entry as E
 import Text.BibTeX.Format (entry)
 import qualified Data.Map as M
@@ -141,9 +142,9 @@ introduction db = let
             "The comprehensive MAC taxonomy database (comatose) is a collection of "
             toHtml $ show $ algorithmCount db
             " wireless media/medium access protocols published between "
-            toHtml firstyear
+            toHtml $ show firstyear
             " and "
-            toHtml lastyear
+            toHtml $ show lastyear
             "."
         p_ [class_ "lead"] $ a_ [class_ "btn btn-primary btn-lg", href_ "#about", role_ "button"] "Learn more"
 
@@ -171,6 +172,8 @@ about db attrib = let
     div_ [id_ "about"] $ do
         h2_ "About"
         p_ "In recent years the scientific community has proposed a surprisingly large number of wireless medium access (MAC) protocols. That number is still climbing year by year, rendering classic surveys outdated rather quick. Additionally the sheer number of protocols results in name collisions, often making it harder than necessary to identify which protocol exactly is referenced by just looking at its name. Ordinary surveys also cannot provide interactivity like feature-based filtering and searching. Its results are not reusable easily since they are not machine-readable."
+        div_ [id_ "pubHistogram"] $ do
+            script_ $ T.concat ["let yearHistData = ", decodeUtf8 $ BS.toStrict $ encode $ publicationYearHist db, ";"]
         p_ $ do
             "This comprehensive MAC taxonomy database (comatose), aims to fix most of these problems. It lists most known scientific MAC protocol proposals and is not limited to a subset with specific properties. The list includes the protocol’s short and long name, a description, as well as references to the publication it originated from. It also introduces a taxonomy. Some of its terminology is based on or inspired by "
             a_ [href_ "#references"] "existing surveys"
@@ -214,6 +217,7 @@ page db attrib = doctypehtml_ $ do
             popperVersion = "1.12.9"
             selectizeVersion = "0.12.4"
             jqueryVersion = "3.2.1"
+            bokehVersion = "0.12.13"
         extjs $ T.concat ["https://code.jquery.com/jquery-", jqueryVersion, ".min.js"]
         extjs $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/popper.js/", popperVersion, "/umd/popper.min.js"]
         extjs $ T.concat ["https://maxcdn.bootstrapcdn.com/bootstrap/", bootstrapVersion, "/js/bootstrap.min.js"]
@@ -221,6 +225,9 @@ page db attrib = doctypehtml_ $ do
         extjs $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/js/standalone/selectize.min.js"]
         extcss $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/css/selectize.min.css"]
         extcss $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/selectize.js/", selectizeVersion, "/css/selectize.bootstrap3.min.css"]
+        extcss $ T.concat ["https://cdn.pydata.org/bokeh/release/bokeh-", bokehVersion, ".min.css"]
+        extjs $ T.concat ["https://cdn.pydata.org/bokeh/release/bokeh-", bokehVersion, ".min.js"]
+        extjs $ T.concat ["https://cdn.pydata.org/bokeh/release/bokeh-api-", bokehVersion, ".min.js"]
         extcss "style.css"
     body_ $ do
         nav_ [class_ "navbar navbar-expand-md navbar-dark bg-dark fixed-top"] $ do

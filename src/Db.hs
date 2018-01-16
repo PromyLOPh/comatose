@@ -2,7 +2,7 @@
 module Db where
 
 import System.FilePath ((<.>), splitExtension)
-import Data.List (nub, sort, sortBy, isPrefixOf)
+import Data.List (nub, sort, sortBy, isPrefixOf, group)
 import Control.Monad
 import Data.Maybe (catMaybes)
 import Data.Yaml
@@ -103,9 +103,17 @@ split delim s = let (a, b:bs) = span (/= delim) s in a:split delim bs
 getFeatureBase :: String -> String
 getFeatureBase feature = head $ split '.' feature
 
+publicationYears :: Database -> [Int]
+publicationYears db = map read $ catMaybes $ map (lookup "year" . E.fields) $ dpublications db
+
+-- |Get number of publications by year
+publicationYearHist :: Database -> [(Int, Int)]
+publicationYearHist db = map (\(x:xs) -> (x, length (x:xs))) $ group years
+	where years = sort $ publicationYears db
+
 minMaxPublicationYears db = (firstyear, lastyear)
     where
-        pubyears = catMaybes $ map (lookup "year" . E.fields) $ dpublications db
+        pubyears = publicationYears db
         firstyear = foldr min (head pubyears) (tail pubyears)
         lastyear = foldr max (head pubyears) (tail pubyears)
 
