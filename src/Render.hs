@@ -1,3 +1,25 @@
+{-
+Copyright 2015–2018 comatose contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 module Render (render) where
 
@@ -122,14 +144,14 @@ bibentry bib = do
     ", "
     span_ [class_ "author"] $ htmlLookup "author"
     ", "
-    span_ [class_ "year"] $ htmlLookup "year"
+    span_ [class_ "year"] $ maybe mempty (toHtml . show) $ publicationYear bib
     " "
     button_ [type_ "button", class_ "btn btn-light btn-sm", data_ "toggle" "popover", title_ "BibTeX", data_ "content" $ T.pack $ entry bib] "BibTeX"
 
 -- | References section
 references :: [E.T] -> Html ()
 references attrib = div_ $ do
-        h2_ [id_ "references"] "References"
+        h3_ [id_ "references"] "References"
         ol_ $ forM_ attrib (li_ . bibentry)
 
 -- | What is this?!
@@ -171,35 +193,38 @@ about db attrib = let
     in do
     div_ [id_ "about"] $ do
         h2_ "About"
-        p_ "In recent years the scientific community has proposed a surprisingly large number of wireless medium access (MAC) protocols. That number is still climbing year by year, rendering classic surveys outdated rather quick. Additionally the sheer number of protocols results in name collisions, often making it harder than necessary to identify which protocol exactly is referenced by just looking at its name. Ordinary surveys also cannot provide interactivity like feature-based filtering and searching. Its results are not reusable easily since they are not machine-readable."
-        div_ [id_ "pubHistogram"] $ do
-            script_ $ T.concat ["let yearHistData = ", decodeUtf8 $ BS.toStrict $ encode $ publicationYearHist db, ";"]
+        p_ "Since the publication of the ALOHA MAC protocol in 1970 the scientific community has proposed a large number of wireless medium access control (MAC) protocols.  This results in two issues.  Firstly, name collisions: Most of the single-letter abbreviations like L MAC, M MAC, O MAC and so on are already used multiple times, some up to five times. Even two-letter abbreviations like AS MAC are used three times. This makes it harder than necessary to distinguish different protocols purely based on their name. Secondly, it is very likely that some of these publications are (unintentional) reinventions of previous protocols."
+        figure_ [id_ "pubHistogram"] $ do
+            div_ $ script_ $ T.concat ["let yearHistData = ", decodeUtf8 $ BS.toStrict $ encode $ publicationYearHist db, ";"]
+            figcaption_ "Publication count by year"
         p_ $ do
-            "This comprehensive MAC taxonomy database (comatose), aims to fix most of these problems. It lists most known scientific MAC protocol proposals and is not limited to a subset with specific properties. The list includes the protocol’s short and long name, a description, as well as references to the publication it originated from. It also introduces a taxonomy. Some of its terminology is based on or inspired by "
-            a_ [href_ "#references"] "existing surveys"
-            ". Features are grouped into "
+            a_ [href_ "#references"] "Surveys"
+            " are usually limited to a small subset of protocols due to time constraints and their target medium, printed journals, which limits the page count.  They are static in two ways: Once published they cannot be modified or updated.  And secondly printed surveys cannot provide interactivity like feature-based filtering and searching.  Additionally their results are not reusable and extendable since they are not machine-readable."
+        p_ $ do
+            "The comprehensive MAC taxonomy database (comatose), aims to fix these problems. It lists most known scientific MAC protocol proposals including their short and long name, a description and refererences the publication it originated from. Its code is public and open source and thus can be updated whenever new research appears. The database is machine-readable and searchable by humans through a browser interface. It also assigns tags or features to each protocol to aid finding protocols with specific properties. These features are grouped into "
             toHtml $ show categoryCount
-            " categories and those within the same category can be mutually exclusive. Below is a list of all features in use."
+            " categories. For some categories features are mutually exclusive."
         features db
         h3_ "Implementation"
         p_ $ do
-            "comatose uses two databases. The first one contains features and protocols in a "
+            "Comatose uses two separate databases.  The first one contains basic information about a protocol, like name, description and features, in a "
             a_ [href_ "http://yaml.org/"] "YAML"
-            " file. It is human and machine-readable at the same time and thus easy to edit. Also it does not require additional software like a SQL database server. This first database links protocols to publications with a second database. That one is just a standard BibTeX file. Since TeX is used for a lot of scientific publications these records usually exist already and can be copied, as well as reused for new publications. Therefore both should databases provide value beyond the scope of this project."
-        p_ "This very page is generated with a HTML renderer written in Haskell. It reads both databases and transforms them into a single-page HTML document.  Additional JavaScript code provides client-side filtering and searching."
+            " file.  This file format is human and machine-readable at the same time and thus easy to maintain.  Additional software like an SQL database server is not required.  The second database is a standard BibTeX file.  Since TeX is used for a lot of scientific publications these records usually exist already and can be copied, as well as reused for new publications.  Therefore, both databases should provide value beyond the scope of this project."
+
         h3_ "Contributing"
         p_ $ do
-            "As mentioned above this database is not complete yet and will never be, as long as new protocols are invented. Descriptions and feature tags are missing for a lot of protocols due to lack of time. If you want to help send an email with your suggestions to "
-            a_ [href_ "mailto:lars+comatose@6xq.net"] "lars+comatose@6xq.net"
+            "As mentioned earlier, this database is not an exhaustive list of MAC protocols as long as new protocols are invented.  Due to the large number of protocols listed some of them are still lacking descriptions and tags. If you want to help "
+            a_ [href_ "mailto:lars+comatose@6xq.net"] "send an email with your suggestions"
             " or clone the repository from "
             a_ [href_ "https://github.com/PromyLOPh/comatose"] "GitHub"
             ", edit the database and create a pull request."
         h3_ "Acknowledgements"
         p_ $ do
-            "This database is part of a project funded by the "
-            a_ [href_ "https://www.bmbf.de/en/index.html"] "Federal Ministry of Education and Research"
-            " from 2015 to 2017."
-        references (sortBy (compare `on` lookup "year" . E.fields) attrib)
+            "This work has been partly funded by the "
+            a_ [href_ "https://www.bmbf.de/en/index.html"] "German Federal Ministry of Education and Research (BMBF)"
+            " within the project “TreuFunk” (grant number 16KIS0236)."
+            img_ [src_ "bmbf_logo_fremdpublikation.svg", class_ "bmbflogo" ]
+        references (sortBy (compare `on` publicationYear) attrib)
     
 -- | The list of protocols
 protocols :: Database -> Html ()
@@ -208,7 +233,7 @@ protocols db = section_ [id_ "protocols", role_ "tablist"] $ forM_ (M.toList $ d
 -- |Page template
 page db attrib = doctypehtml_ $ do
     head_ $ do
-        title_ "comatose"
+        title_ "comatose – Comprehensive MAC Taxonomy Database"
         meta_ [charset_ "utf-8"]
         meta_ [name_ "viewport", content_ "width=device-width, initial-scale=1, shrink-to-fit=no"]
         -- external libraries

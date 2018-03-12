@@ -22,4 +22,6 @@ body {
 .filter-feature {
 	display: hidden;
 }
-
+.bmbflogo {
+    float: right;
+}

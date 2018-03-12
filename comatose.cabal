@@ -5,9 +5,11 @@ name:                comatose
 version:             0.1.0.0
 -- synopsis:            
 -- description:         
-license:             PublicDomain
+license:             MIT
+license-file:        LICENSE
 author:              Lars-Dominik Braun
-maintainer:          lars@6xq.net
+maintainer:          lars+comatose@6xq.net
+homepage:            https://6xq.net/comatose/
 -- copyright:           
 category:            Web
 build-type:          Simple
@@ -19,7 +21,7 @@ executable comatose
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.6 && <4.10, bibtex, yaml, containers, parsec, lucid, bytestring, text, filepath, network-uri, aeson, directory
+  build-depends:       base >=4.6 && <4.10, bibtex, yaml, containers, parsec, lucid, bytestring, text, filepath, network-uri, aeson, directory, time
   hs-source-dirs:      src
   default-language:    Haskell2010
 

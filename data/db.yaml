@@ -1,3 +1,23 @@
+# Copyright 2015–2018 comatose contributors
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is furnished to do
+# so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # comatose
 #
 # COmprehensive MAc TaxonOmy databaSE
@@ -247,7 +267,7 @@ algos:
         ref: [rrap]
     grap:
         longname: GRAP
-        name: GRAP
+        name: Group Randomly Addressed Polling
         related: [rap]
         collisions: true
         ref: [grap]
@@ -270,7 +290,7 @@ algos:
         features:
             time.discrete:
     frama:
-        longname: fair resource assignment multiple access
+        longname: Fair Resource Assignment Multiple Access
         name: F-RAMA
         ref: [frama]
     zhang:
@@ -1258,7 +1278,7 @@ algos:
         related: [smac, macaw, fama, sift, woo2001, leach, ptdma]
     srsa:
         name: SRSA
-        longname: SRSA
+        longname: Self-Reorganizing Slot Allocation
         ref: [srsa]
         related: [smac, leach, stdma, btma, arisha2002, npcsmaps, pamas, trama]
     rmac2007a:
@@ -1757,7 +1777,18 @@ algos:
     adamac:
         name: Ada-MAC
         longname: Adaptive MAC
+        description: >
+            Hybrid protocol based on IEEE 802.15.4, combining scheduled slots
+            and contention.
         ref: [adamac]
+        features:
+            access.random:
+            access.reservation:
+            topology.singlehop:
+            topology.centralized:
+            time.discrete:
+            realtime.guaranteed:
+            routing.unicast:
     sdmac:
         name: SD-MAC
         longname: Spectrum Database-Driven MAC
@@ -1813,4 +1844,11 @@ algos:
         name: AH-MAC
         longname: Adaptive Hierarchical MAC
         ref: [ahmac]
+    ripple:
+        name: Ripple
+        ref: [ripple]
+    pcsma:
+        name: P-CSMA
+        longname: Priority-based Carrier-Sense Multiple Access
+        ref: [pcsma]
 

@@ -1,3 +1,25 @@
+{-
+Copyright 2015–2018 comatose contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 module Db where
 
@@ -103,13 +125,21 @@ split delim s = let (a, b:bs) = span (/= delim) s in a:split delim bs
 getFeatureBase :: String -> String
 getFeatureBase feature = head $ split '.' feature
 
+-- |Get all publication years for all protocols
 publicationYears :: Database -> [Int]
-publicationYears db = map read $ catMaybes $ map (lookup "year" . E.fields) $ dpublications db
+publicationYears db = catMaybes $ map publicationYear $ dpublications db
+
+-- |Get earliest year for one publication
+publicationYear :: E.T -> Maybe Int
+publicationYear e = (lookup "date" $ E.fields e) >>= return . extractYear
+    where
+        -- simple iso year extraction
+        extractYear = read . takeWhile (/= '-')
 
 -- |Get number of publications by year
 publicationYearHist :: Database -> [(Int, Int)]
 publicationYearHist db = map (\(x:xs) -> (x, length (x:xs))) $ group years
-	where years = sort $ publicationYears db
+    where years = sort $ publicationYears db
 
 minMaxPublicationYears db = (firstyear, lastyear)
     where
