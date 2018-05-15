@@ -224,6 +224,12 @@ about db attrib = let
             a_ [href_ "https://www.bmbf.de/en/index.html"] "German Federal Ministry of Education and Research (BMBF)"
             " within the project “TreuFunk” (grant number 16KIS0236)."
             img_ [src_ "bmbf_logo_fremdpublikation.svg", class_ "bmbflogo" ]
+        p_ $ do
+            "If you want to cite this work use either the URL of this document "
+            a_ [href_ "https://6xq.net/comatose/"] "https://6xq.net/comatose/"
+            " or "
+            a_ [href_ "https://doi.org/10.4119/unibi/2918509"] "doi:10.4119/unibi/2918509"
+            "."
         references (sortBy (compare `on` publicationYear) attrib)
     
 -- | The list of protocols
