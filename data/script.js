@@ -127,6 +127,9 @@ $(document).ready (function () {
 		axis_number_format: "0.[00]a",
 		orientation: "vertical",
 	});
+	p3.sizing_mode = 'scale_width';
+	p3.width = 500;
+	p3.height = 100;
 
 	plt.show (p3, document.querySelector ('#pubHistogram div'));
 });
