@@ -248,7 +248,7 @@ page db attrib = doctypehtml_ $ do
             popperVersion = "1.12.9"
             selectizeVersion = "0.12.4"
             jqueryVersion = "3.2.1"
-            bokehVersion = "0.12.13"
+            bokehVersion = "0.12.16"
         extjs $ T.concat ["https://code.jquery.com/jquery-", jqueryVersion, ".min.js"]
         extjs $ T.concat ["https://cdnjs.cloudflare.com/ajax/libs/popper.js/", popperVersion, "/umd/popper.min.js"]
         extjs $ T.concat ["https://maxcdn.bootstrapcdn.com/bootstrap/", bootstrapVersion, "/js/bootstrap.min.js"]
